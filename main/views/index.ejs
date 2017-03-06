@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>ALP Gateway</title>
+
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimal-ui" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="yes" />
+        <!-- Always required -->
+        <link rel="stylesheet" href="/node_modules/mobile-angular-ui/dist/css/mobile-angular-ui-base.min.css" />
+        <!-- Only required for desktop -->
+        <link rel="stylesheet" href="/node_modules/mobile-angular-ui/dist/css/mobile-angular-ui-hover.min.css" />
+        <!-- Only required for desktop -->
+        <link rel="stylesheet" href="/node_modules/mobile-angular-ui/dist/css/mobile-angular-ui-desktop.min.css" />
+
+        <script src="/node_modules/angular/angular.min.js"></script>
+        <script src="/node_modules/angular-route/angular-route.min.js"></script>
+        <script src="/node_modules/mobile-angular-ui/dist/js/mobile-angular-ui.min.js"></script>
+        <script src="/node_modules/mobile-angular-ui/dist/js/mobile-angular-ui.gestures.min.js"></script>
+
+        <script src='../javascripts/client_index.js'></script>
+    </head>
+
+    <body ng-app="AlpGatewayApp">
+        <div class="app" ng-controller="SampleController">
+
+            <div class="navbar navbar-app navbar-absolute-top">
+                <div class="navbar-brand navbar-brand-center" ui-yield-to="title">
+                  <span>ALP Gateway</span>
+                </div>
+
+                <div class="btn-group pull-left" ui-yield-to="navbarLeft">
+                    <a href="#/" class="btn btn-navbar btn-icon-only"><i class="fa fa-bars fa-navbar"></i></a>
+                </div>
+
+                <div class="btn-group pull-right" ui-yield-to="navbarRight">
+                    <div ng-click="showYesNo()" class="btn sidebar-right-toggle">
+                        <i class="fa fa-plus"></i> Add
+                    </div>
+                </div>
+            </div>
+
+            <div class="app-body">
+                <ng-view class="app-content"></ng-view>
+            </div>
+
+        </div>
+<!--
+        <div ui-yield-to="modals"></div>
+        <div ui-content-for="modals">
+            <div class="modal" ui-if="modal1" ui-shared-state="modal1">
+              <div class="modal-backdrop in"></div>
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button class="close" 
+                            ui-turn-off="modal1">&times;</button>
+                    <h4 class="modal-title">Modal title</h4>
+                  </div>
+                  <div class="modal-body">
+                    <p>Message here</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button ui-turn-off="modal1" class="btn btn-default">Close</button>
+                    <button ui-turn-off="modal1" class="btn btn-primary">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+-->        
+    </body>
+
+</html>

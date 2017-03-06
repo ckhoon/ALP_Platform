@@ -1,0 +1,26 @@
+{
+  "name": "main",
+  "version": "1.0.0",
+  "description": "main node for gateway",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ckhoon/ALP_Platform.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ckhoon/ALP_Platform/issues"
+  },
+  "homepage": "https://github.com/ckhoon/ALP_Platform#readme",
+  "dependencies": {
+    "angular": "^1.6.2",
+    "angular-route": "^1.6.2",
+    "ejs": "^2.5.6",
+    "express": "^4.14.1",
+    "mobile-angular-ui": "^1.3.4"
+  }
+}
