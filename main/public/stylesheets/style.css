@@ -1,5 +1,12 @@
-.card {
+.panel {
    height: 15rem; 
-   padding-top: 5rem;
-   border:  1px solid grey;
+   width: 15rem; 
+   padding-top: 3rem;
+   font-size: 3rem;
+   text-align: center;
+   margin: 2px;
+}
+
+.panel:active {
+  background-color: #dfdfdf !important;
 }

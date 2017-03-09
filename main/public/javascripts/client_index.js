@@ -9,19 +9,34 @@ var app = angular.module('AlpGatewayApp', [
 
 app.config(function($routeProvider) {
   $routeProvider.when('/', {templateUrl: '../javascripts/home.html', reloadOnSearch: false});
-  $routeProvider.when('/add', {templateUrl: '../javascripts/add.html', reloadOnSearch: false});
+  $routeProvider.when('/showAdd', {templateUrl: '../javascripts/showAdd.html', reloadOnSearch: false});
 });
 
 app.config(['$locationProvider', function($locationProvider) {
   $locationProvider.hashPrefix('');
 }]);
 
-app.controller('SampleController', function($rootScope, $scope) {
+app.controller('MainController', function($rootScope, $scope, $http) {
 
-  $scope.showYesNo = function() {
-  	console.log("here");
-  	location.href="#/add"
+  $scope.showAdd = function() {
+  	console.log("show add device");
+  	location.href="#/showAdd"
   };
+
+  $scope.addPlug = function() {
+  	console.log("add plug");
+		$http({
+		  method: 'GET',
+		  url: '/add/plug'
+		}).then(function successCallback(response) {
+		    // this callback will be called asynchronously
+		    // when the response is available
+		  }, function errorCallback(response) {
+		    // called asynchronously if an error occurs
+		    // or server returns response with an error status.
+		  });
+  };
+
 
 });
 
