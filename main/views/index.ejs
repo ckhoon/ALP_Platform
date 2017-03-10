@@ -25,7 +25,7 @@
     </head>
 
     <body ng-app="AlpGatewayApp">
-        <div class="app" ng-controller="SampleController">
+        <div class="app" ng-controller="MainController">
 
             <div class="navbar navbar-app navbar-absolute-top">
                 <div class="navbar-brand navbar-brand-center" ui-yield-to="title">
@@ -37,7 +37,7 @@
                 </div>
 
                 <div class="btn-group pull-right" ui-yield-to="navbarRight">
-                    <div ng-click="showYesNo()" class="btn sidebar-right-toggle">
+                    <div ng-click="showAdd()" class="btn sidebar-right-toggle">
                         <i class="fa fa-plus"></i> Add
                     </div>
                 </div>
@@ -48,6 +48,7 @@
             </div>
 
         </div>
+        <div ui-yield-to="modals"></div>
 <!--
         <div ui-yield-to="modals"></div>
         <div ui-content-for="modals">

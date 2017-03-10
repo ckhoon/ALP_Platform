@@ -16,14 +16,14 @@
     <div class="section " style='height: 100%;'>
       <div class="container">
         <div class="row">
-          <div class="panel panel-default col-xs-12" ng-click="addPlug()">
+          <div class="panel panel-default col-xs-12" ng-click="addPlug()" >
             <div class="panel-body">
               Plug
             </div>
           </div>    
-          <div class="panel panel-default col-xs-12">
+          <div class="panel panel-default col-xs-12" ng-click="addSwitch()" ui-turn-on="modal1">
             <div class="panel-body">
-              Swtich
+              Switch
             </div>
           </div>    
           <div class="panel panel-default col-xs-12">
@@ -36,3 +36,27 @@
     </div>
   </div>
 </div>
+
+<div ui-content-for="modals">
+  <div class="modal" ui-if="modal1" ui-shared-state="modal1">
+    <div class="modal-backdrop in"></div>
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button class="close" 
+                  ui-turn-off="modal1">&times;</button>
+          <h4 class="modal-title">Modal title</h4>
+        </div>
+        <div class="modal-body">
+          <p>{{addMessage}}</p>
+        </div>
+        <div class="modal-footer">
+          <button ui-turn-off="modal1" class="btn btn-default">Close</button>
+          <button ui-turn-off="modal1" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
