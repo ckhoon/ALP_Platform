@@ -44,9 +44,7 @@ app.controller('MainController', function($rootScope, $scope, $http) {
   };
 
   $scope.addSwitch = function(){
-  	console.log ($scope.addMessage);
-  	$scope.addMessage = "abc";
-  	console.log ($scope.addMessage);
+  	$scope.addMessage = "Coming soon...";
   }
 
 

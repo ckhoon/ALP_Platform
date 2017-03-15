@@ -3,6 +3,7 @@
 var path = require('path');
 var express = require('express');
 var app = express();
+var test = require('./routes/route_test');
 var index = require('./routes/route_index');
 var route_add_plug = require('./routes/route_add_plug');
 
