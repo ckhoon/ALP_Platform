@@ -1,6 +1,5 @@
 .panel {
    height: 15rem; 
-   width: 15rem; 
    padding-top: 3rem;
    font-size: 3rem;
    text-align: center;
@@ -9,4 +8,13 @@
 
 .panel:active {
   background-color: #dfdfdf !important;
+}
+
+#addModal {
+	top:20%;
+	right:center;
+}
+
+#btnModalOk{
+ width: 30%;
 }

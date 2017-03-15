@@ -13,10 +13,10 @@
 
 <div class="scrollable">
   <div class="scrollable-content">
-    <div class="section " style='height: 100%;'>
+    <div class="section ">
       <div class="container">
         <div class="row">
-          <div class="panel panel-default col-xs-12" ng-click="addPlug()" >
+          <div class="panel panel-default col-xs-12" ng-click="addPlug()" ui-turn-on="modal1">
             <div class="panel-body">
               Plug
             </div>
@@ -38,21 +38,20 @@
 </div>
 
 <div ui-content-for="modals">
-  <div class="modal" ui-if="modal1" ui-shared-state="modal1">
+  <div id="addModal" class="modal" ui-if="modal1" ui-shared-state="modal1">
     <div class="modal-backdrop in"></div>
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <button class="close" 
                   ui-turn-off="modal1">&times;</button>
-          <h4 class="modal-title">Modal title</h4>
+          <h5 class="modal-title">Adding new plug</h5>
         </div>
         <div class="modal-body">
-          <p>{{addMessage}}</p>
+          <h4>{{addMessage}}</h4>
         </div>
-        <div class="modal-footer">
-          <button ui-turn-off="modal1" class="btn btn-default">Close</button>
-          <button ui-turn-off="modal1" class="btn btn-primary">Save changes</button>
+        <div class="modal-footer" style="text-align: center;">
+          <button ui-turn-off="modal1" class="btn btn-primary btn-lg" id="btnModalOk">Ok</button>
         </div>
       </div>
     </div>

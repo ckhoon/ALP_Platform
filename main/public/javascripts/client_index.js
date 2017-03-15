@@ -25,13 +25,18 @@ app.controller('MainController', function($rootScope, $scope, $http) {
 
   $scope.addPlug = function() {
   	console.log("add plug");
+    $scope.addMessage = "Scanning...";
 		$http({
 		  method: 'GET',
 		  url: '/add/plug'
 		}).then(function successCallback(response) {
 		    // this callback will be called asynchronously
 		    // when the response is available
-		    console.log(response);
+		    console.log(response.data.id);
+        if (response.data.id == -1)
+          $scope.addMessage = "No new plug found";
+        else
+          $scope.addMessage = "New plug added. Id - " + response.data.id;
 		  }, function errorCallback(response) {
 		    // called asynchronously if an error occurs
 		    // or server returns response with an error status.
