@@ -2,7 +2,15 @@
   <div class="scrollable-content">
     <div class="section">
       <div class="container">
-        <h3 class="text-center">No devices</h3>
+        <div ng-repeat="device in devices">
+          <div class="panel panel-default">
+          	<div class="panel-heading">Plug</div>
+            <div class="panel-body panel-plug" href="#/showPlug" ng-click="showPlug(device.id)">
+              <h3>{{device.name}}</h3>
+            </div>
+          </div>    
+        </div>
+        <h3 ng-if="(devices.length == 0)" style="text-align: center;">No Device</h3>
       </div>
     </div>
   </div>

@@ -1,25 +1,11 @@
 "use strict"
 
-
 var http = require('http');
 var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 
-var devices = require('../devices.json');
-
-/*
-console.log(devices.plugs);
-console.log(devices.switches);
-
-for (var plug in devices.plugs)
-	console.log("! " + plug);
-for (let sw of devices.switches)
-	console.log("1 " + sw.name);
-*/
-
 var isOpen = false;
-
 
 router.get('/', function(req, res){
 	console.log("add Plug");
@@ -54,6 +40,8 @@ function scan(callback){
 		res.on('end', function(){
 			var newPlug = {name: '' , id: -1};
 			var scanDevices = JSON.parse(body);
+			var devices = JSON.parse(fs.readFileSync('devices.json', 'utf8'));
+
 			for (let scanDevice of scanDevices){
 				var found =	devices.plugs.filter(function(n){
 						return n.id == scanDevice.nodeIdentification.remote64;

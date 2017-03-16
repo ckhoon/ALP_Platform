@@ -1,0 +1,8 @@
+{
+	"type":"XBee",
+	"dev":"/dev/ttyUSB0",
+	"baudrate":9600,
+	"device":[
+		{"name":"test","addr":"0013A20040987B60","porti":"D4"},
+		{"name":"test2","addr":"0013A20040B93AF0","porti":"D4"}]
+}

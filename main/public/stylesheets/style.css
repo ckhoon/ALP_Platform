@@ -1,4 +1,4 @@
-.panel {
+.panel-add {
    height: 15rem; 
    padding-top: 3rem;
    font-size: 3rem;
@@ -6,7 +6,11 @@
    margin: 2px;
 }
 
-.panel:active {
+.panel-add:active {
+  background-color: #dfdfdf !important;
+}
+
+.panel-plug:active {
   background-color: #dfdfdf !important;
 }
 
@@ -17,4 +21,10 @@
 
 #btnModalOk{
  width: 30%;
+}
+
+#lightbulb {
+  font-size: 100px;
+  display: block;
+  text-align: center;
 }

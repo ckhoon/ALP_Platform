@@ -6,6 +6,9 @@ var app = express();
 var test = require('./routes/route_test');
 var index = require('./routes/route_index');
 var route_add_plug = require('./routes/route_add_plug');
+var route_refresh = require('./routes/route_refresh');
+var route_plug_turnOn = require('./routes/route_plug_turnOn');
+var route_plug_turnOff = require('./routes/route_plug_turnOff');
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -15,6 +18,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/add/plug', route_add_plug);
+app.use('/plug/turnOn', route_plug_turnOn);
+app.use('/plug/turnOff', route_plug_turnOff);
+app.use('/refresh', route_refresh);
+
 
 app.use('/test', test);
 
