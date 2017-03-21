@@ -13,37 +13,23 @@ var cmdData =
 //	destination64: "0013A20040B93AF0",
 	destination16: "fffe",
 	remoteCommandOptions: 0x02,
-	command: "D4",
-	commandParameter: [ 0x04 ]
+	command: "IR",
+	commandParameter: [ 0x0B, 0xB8 ]
 };
 
-router.post('/', function(req, res){
+function monitor(activeplug){
 	console.log("turn on plug");
 
-	req.on('data', function(data) {
-		var reqPlug = JSON.parse(data);
-
-		openPort(function(isOpen){
-			if (isOpen){
-				sendCmd(reqPlug.id, function(body){
-					for (let plug of req.app.devices.plugs){
-						if (plug.id == reqPlug.id)
-							if(typeof plug.status != 'undefined')
-							{
-								plug.status = 0;
-								break;
-							}
-					}
-
-					res.end(JSON.stringify(body.toString()));
-				});
-			}
-			else
-				res.end("error");
-		});
-
-  });
-});
+	openPort(function(isOpen){
+		if (isOpen){
+			sendCmd(activeplug.id, function(body){
+				return (JSON.stringify(body.toString()));
+			});
+		}
+		else
+			return ("error");
+	});
+};
 
 function openPort(callback){
 	var optionsget = {
@@ -112,4 +98,4 @@ function sendCmd(plugid, callback){
 
 }
 
-module.exports = router;
+module.exports = monitor;

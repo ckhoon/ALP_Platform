@@ -17,7 +17,7 @@
       <div class="container">
 
         <p ui-shared-state id="lightbulb"
-            ui-class="{'text-primary': lightbulb}" 
+            ui-class="{'text-primary': false}" 
                class="text-default">
 
           <i class="fa fa-lightbulb-o"></i>
@@ -25,9 +25,10 @@
 
         <div class="btn-group justified nav-tabs">
           <a  
-             ui-turn-on="lightbulb"
-             ui-class="{'active': lightbulb}" 
-             class="btn btn-default" href ng-click="plugTurnOn()">
+            ng-hide="noConnection"
+            ui-turn-on="lightbulb"
+            ui-class="{'active': lightbulb}"
+            class="btn btn-default" href ng-click="plugTurnOn()">
               Turn On
           </a>
           <a  
@@ -37,10 +38,7 @@
               Turn Off
           </a>       
         </div>
-
-
         <hr>
-
       </div>
     </div>
   </div>

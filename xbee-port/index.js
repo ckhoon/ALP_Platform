@@ -1,4 +1,4 @@
-
+"use strict"
 const XBEE_MQ_EX = "xbee-mq-ex";
 
 var amqp = require('amqplib/callback_api');

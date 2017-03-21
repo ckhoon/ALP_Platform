@@ -82,8 +82,8 @@ function openPort(callback){
   console.log("sending port open req");
 
 	http.request(optionsget, function(res) {
-		console.log("statusCode: ", res.statusCode);
-		console.log("headers: ", res.headers);
+		//console.log("statusCode: ", res.statusCode);
+		//console.log("headers: ", res.headers);
 
 		var body = '';
 		res.on('data', function(chunk){
@@ -92,8 +92,8 @@ function openPort(callback){
 
 		res.on('end', function(){
 			var fbResponse = JSON.parse(body);
-			console.log("Got a body: ", body);
-			console.log("Got a fbResponse: ", fbResponse.status);
+			//console.log("Got a body: ", body);
+			//console.log("Got a fbResponse: ", fbResponse.status);
 			callback(fbResponse.status);
 		});
 	}).end();

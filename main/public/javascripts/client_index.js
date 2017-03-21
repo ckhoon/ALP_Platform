@@ -3,7 +3,8 @@
 var app = angular.module('AlpGatewayApp', [
   'ngRoute',
   'mobile-angular-ui',
-  'mobile-angular-ui.gestures'
+  'mobile-angular-ui.gestures',
+  'mobile-angular-ui.core.sharedState'
 ]);
 
 
@@ -17,7 +18,8 @@ app.config(['$locationProvider', function($locationProvider) {
   $locationProvider.hashPrefix('');
 }]);
 
-app.controller('MainController', function($rootScope, $scope, $http) {
+app.controller('MainController', function($rootScope, $scope, $http, SharedState) {
+  //SharedState.initialize($scope, 'lightbulb');
 
   $scope.$on("$routeChangeStart", function(event, newUrl, oldUrl) {
     if (newUrl)
@@ -29,6 +31,7 @@ app.controller('MainController', function($rootScope, $scope, $http) {
       }
       else if (newUrl.$$route.originalPath == "/"){
         console.log("refresh devices");
+        clearTimeout($scope.timeoutID);
         $scope.refreshDevices();
       }
   });
@@ -83,13 +86,40 @@ app.controller('MainController', function($rootScope, $scope, $http) {
       });
   };
 
+  $scope.noConnection = false;
+
+  $scope.getPlugStatus = function(){
+    if($scope.activePlugId != -1)
+    {
+      var idJson = {id: $scope.activePlugId};
+      var request = $http.post("/plug/status", idJson).then(function successCallback(res) {
+        if (res.data.status == -1){
+          SharedState.set('lightbulb',0);
+          $scope.noConnection = true;
+        }
+        else{
+          $scope.noConnection = false;
+          SharedState.set('lightbulb',res.data.status);
+        }
+
+        console.log(SharedState.get('lightbulb'));
+      }, function errorCallback(res) {
+        console.log( "failure message: " + res.data);
+      });
+      $scope.timeoutID = setTimeout($scope.getPlugStatus,2000);
+    }
+  };
+
   $scope.showPlug = function(plugId){
     console.log("showPlug - " + plugId);
     location.href="#/showPlug"
     $scope.activePlugId = plugId;
+    $scope.timeoutID = setTimeout($scope.getPlugStatus,2000);
   };
 
   $scope.plugTurnOn= function(){
+    clearTimeout($scope.timeoutID);
+    $scope.timeoutID = setTimeout($scope.getPlugStatus,3000);
     var idJson = {id: $scope.activePlugId};
     console.log(idJson);
     var request = $http.post("/plug/turnOn", idJson).then(function successCallback(res) {
@@ -100,6 +130,8 @@ app.controller('MainController', function($rootScope, $scope, $http) {
   };
 
   $scope.plugTurnOff= function(){
+    clearTimeout($scope.timeoutID);
+    $scope.timeoutID = setTimeout($scope.getPlugStatus,3000);
     var idJson = {id: $scope.activePlugId};
     var request = $http.post("/plug/turnOff", idJson).then(function successCallback(res) {
       console.log(res.data);

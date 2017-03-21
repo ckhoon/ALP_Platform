@@ -21,11 +21,19 @@ router.post('/', function(req, res){
 	console.log("turn on plug");
 
 	req.on('data', function(data) {
-		var plug = JSON.parse(data);
+		var reqPlug = JSON.parse(data);
 
 		openPort(function(isOpen){
 			if (isOpen){
-				sendCmd(plug.id, function(body){
+				sendCmd(reqPlug.id, function(body){
+					for (let plug of req.app.devices.plugs){
+						if (plug.id == reqPlug.id)
+							if(typeof plug.status != 'undefined')
+							{
+								plug.status = 0;
+								break;
+							}
+					}
 					res.end(JSON.stringify(body.toString()));
 				});
 			}
@@ -46,8 +54,8 @@ function openPort(callback){
   console.log("sending port open req");
 
 	http.request(optionsget, function(res) {
-		console.log("statusCode: ", res.statusCode);
-		console.log("headers: ", res.headers);
+		//console.log("statusCode: ", res.statusCode);
+		//console.log("headers: ", res.headers);
 
 		var body = '';
 		res.on('data', function(chunk){
@@ -56,8 +64,8 @@ function openPort(callback){
 
 		res.on('end', function(){
 			var fbResponse = JSON.parse(body);
-			console.log("Got a body: ", body);
-			console.log("Got a fbResponse: ", fbResponse.status);
+			//console.log("Got a body: ", body);
+			//console.log("Got a fbResponse: ", fbResponse.status);
 			callback(fbResponse.status);
 		});
 	}).end();
@@ -83,8 +91,8 @@ function sendCmd(plugid, callback){
 
 	// do the POST call
 	var reqPost = http.request(optionspost, function(res) {
-	    console.log("statusCode: ", res.statusCode);
-	    console.log("headers: ", res.headers);
+	    //console.log("statusCode: ", res.statusCode);
+	    //console.log("headers: ", res.headers);
 	 
 	    res.on('data', function(d) {
 	        console.info('POST result:\n');

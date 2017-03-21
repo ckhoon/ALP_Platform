@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/ckhoon/ALP_Platform#readme",
   "dependencies": {
+    "amqplib": "^0.5.1",
     "angular": "^1.6.2",
     "angular-route": "^1.6.2",
     "ejs": "^2.5.6",
