@@ -41,7 +41,8 @@ app.xbeeAPI.on("frame_object", function(frame) {
 	if(app.isND)
 	{
 		if(frame.type == 136)
-			app.NDframes.push(frame);
+			if(frame.commandStatus == 0)
+				app.NDframes.push(frame);
 	}
 });
 

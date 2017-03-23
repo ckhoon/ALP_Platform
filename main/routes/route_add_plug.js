@@ -40,6 +40,7 @@ function scan(callback){
 		res.on('end', function(){
 			var newPlug = {name: '' , id: -1};
 			var scanDevices = JSON.parse(body);
+			console.log(scanDevices);
 			var devices = JSON.parse(fs.readFileSync('devices.json', 'utf8'));
 
 			for (let scanDevice of scanDevices){

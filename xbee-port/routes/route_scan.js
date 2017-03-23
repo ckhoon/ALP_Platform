@@ -9,7 +9,7 @@ var cmdND =
 	type: 0x09, // xbee_api.constants.FRAME_TYPE.REMOTE_AT_COMMAND_REQUEST 
 	id: 0x01, // optional, nextFrameId() is called per default 
 	command: "ND",					//I/O pin D4
-	commandParameter: [] //switch off 
+	commandParameter: [] 
 };
 
 router.get('/', function(req, res){
@@ -18,7 +18,10 @@ router.get('/', function(req, res){
 	}else{
 		console.log("send ND cmd");
 		req.app.serialport.write(req.app.xbeeAPI.buildFrame(cmdND), function(err) {
-			if (err) throw(err);
+			if (err){
+				console.log(err);
+				throw(err);
+			} 
 			else console.log("done,..");
 			req.app.isND = true;
 

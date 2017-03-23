@@ -20,6 +20,7 @@ app.config(['$locationProvider', function($locationProvider) {
 
 app.controller('MainController', function($rootScope, $scope, $http, SharedState) {
   //SharedState.initialize($scope, 'lightbulb');
+  $scope.plugWaitStatus = false;
 
   $scope.$on("$routeChangeStart", function(event, newUrl, oldUrl) {
     if (newUrl)
@@ -34,6 +35,15 @@ app.controller('MainController', function($rootScope, $scope, $http, SharedState
         clearTimeout($scope.timeoutID);
         $scope.refreshDevices();
       }
+  });
+
+  $rootScope.$on('$routeChangeStart', function() {
+    $rootScope.loading = true;
+  });
+
+  $rootScope.$on('$routeChangeSuccess', function() {
+    if (!$scope.plugWaitStatus)
+      $rootScope.loading = false;
   });
 
   $scope.showAdd = function() {
@@ -93,6 +103,10 @@ app.controller('MainController', function($rootScope, $scope, $http, SharedState
     {
       var idJson = {id: $scope.activePlugId};
       var request = $http.post("/plug/status", idJson).then(function successCallback(res) {
+        if ($scope.plugWaitStatus){
+          $scope.plugWaitStatus = false;
+          $rootScope.loading = false;
+        }
         if (res.data.status == -1){
           SharedState.set('lightbulb',0);
           $scope.noConnection = true;
@@ -114,6 +128,7 @@ app.controller('MainController', function($rootScope, $scope, $http, SharedState
     console.log("showPlug - " + plugId);
     location.href="#/showPlug"
     $scope.activePlugId = plugId;
+    $scope.plugWaitStatus = true;
     $scope.timeoutID = setTimeout($scope.getPlugStatus,2000);
   };
 
