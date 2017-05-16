@@ -8,6 +8,7 @@ var app = express();
 var test = require('./routes/route_test');
 var index = require('./routes/route_index');
 var route_add_plug = require('./routes/route_add_plug');
+var route_add_switchBle = require('./routes/route_add_switchBle');
 var route_refresh = require('./routes/route_refresh');
 var route_plug_turnOn = require('./routes/route_plug_turnOn');
 var route_plug_turnOff = require('./routes/route_plug_turnOff');
@@ -24,6 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/add/plug', route_add_plug);
+app.use('/add/switchBle', route_add_switch_ble);
 app.use('/plug/turnOn', route_plug_turnOn);
 app.use('/plug/turnOff', route_plug_turnOff);
 app.use('/refresh', route_refresh, refreshDevice);

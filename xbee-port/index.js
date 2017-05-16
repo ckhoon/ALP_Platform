@@ -7,7 +7,7 @@ var app = express();
 var util = require('util');
 var XBee = require('serialport');
 var xbee_api = require('xbee-api');
-var configfile = require('./device.json');		//configuration file
+var configfile = require('./config.json');
 
 var route_open = require('./routes/route_open');
 var route_scan = require('./routes/route_scan');
