@@ -25,7 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/add/plug', route_add_plug);
-app.use('/add/switchBle', route_add_switch_ble);
+app.use('/add/switchBle', route_add_switchBle);
 app.use('/plug/turnOn', route_plug_turnOn);
 app.use('/plug/turnOff', route_plug_turnOff);
 app.use('/refresh', route_refresh, refreshDevice);

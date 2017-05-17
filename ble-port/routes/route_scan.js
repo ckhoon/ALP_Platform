@@ -5,12 +5,30 @@ var router = express.Router();
 var ble = require('noble');
 var bleStatus;
 var timeoutVar;
+const TIMEOUT = 5 * 1000;
+var peripherals = [];
 /* GET home page. */
-router.get('/', function(req, res, next) {
-	ble = req.app.ble;
-	bleStatus = req.app.bleStatus;
-	var serviceUUIDs = ['713d0000503e4c75ba943148f18d941E'];
-	ble.startScanning(serviceUUIDs);
+router.post('/', function(req, res, next) {
+	console.log("scan ");
+	req.on('data', function(data) {
+		var reqData = JSON.parse(data);
+		console.log(reqData);
+		ble = req.app.ble;
+		bleStatus = req.app.bleStatus;
+		//var serviceUUIDs = ['713d0000503e4c75ba943148f18d941e'];
+		peripherals = [];
+		ble.startScanning(reqData.serviceUUID);
+		ble.once('scanStop', function() {         
+			console.log('on -> scanStop');
+			res.writeHead(200, {
+				'Content-Type' : 'application/json',
+				'Content-Length' : Buffer.byteLength(JSON.stringify(peripherals), 'utf8')
+			});
+			res.write(JSON.stringify(peripherals));
+			res.end();
+			bleStatus = constant.CONN_STATUS.IDLE;
+		});
+	});
 });
 
 ble.on('discover', function(peripheral) {
@@ -19,20 +37,14 @@ ble.on('discover', function(peripheral) {
 	console.log("advertisment: ", peripheral.advertisement.txPowerLevel);
 	console.log("advertisment: ", peripheral.advertisement.serviceUuids);
 	console.log("rssi: ", peripheral.rssi);
-	console.log(peripheral);
-/*
-	if (peripheral.advertisement.localName == "BT_MC\0")
-	{
-		console.log("BT_MC found");
-		ble.peripheral = peripheral;
-		clearTimeout(timeoutVar);
-		noble.stopScanning();
+	var peripheralFound = {
+		address : peripheral.address,
+		localName : peripheral.advertisement.localName,
+		txPowerLevel : peripheral.advertisement.txPowerLevel,
+		serviceUuids : peripheral.advertisement.serviceUuids,
+		rssi : peripheral.rssi
 	}
-	else
-	{
-		console.log("localName doesnt match - ", peripheral.advertisement.localName);		
-	}
-	*/
+	peripherals.push(peripheralFound);
 });
 
 ble.on('scanStart', function() {
@@ -41,70 +53,7 @@ ble.on('scanStart', function() {
 
 	timeoutVar = setTimeout(function() {
 		ble.stopScanning();
-	}, 5 * 1000);
-});
-
-ble.on('scanStop', function() {         
-	console.log('on -> scanStop');
-	/*
-	if (ble.peripheral.uuid){
-//		console.log(ble.peripheral);
-		ble.peripheral.connect(function(error) {
-			if (error)
-			{
-				console.log(error);
-				current_status = constant.CONN_STATUS.IDLE;
-			}
-			else
-			{
-				console.log('connected to peripheral: ' + ble.peripheral.uuid);
-
-			    ble.peripheral.discoverServices(null, function(error, services) {
-					if (error){
-						console.log(error);
-						current_status = constant.CONN_STATUS.IDLE;
-					}
-			    	else{
-						console.log('discovered the following services:');
-						for (var i in services) {
-							console.log('  ' + i + ' uuid: ' + services[i].uuid);
-							if (services[i].uuid == '6e400001b5a3f393e0a9e50e24dcca9e'){
-								console.log("Uart service found!");
-								ble.service = services[i];
-								ble.service.discoverCharacteristics(null, function(error, characteristics){
-									console.log('discovered the following characteristics:');
-									for (var j in characteristics) {
-										console.log('  ' + j + ' uuid: ' + characteristics[j].uuid);
-										if (characteristics[j].uuid == '6e400002b5a3f393e0a9e50e24dcca9e'){
-											console.log("TX characteristics found!");
-											ble.uartTx = characteristics[j];
-										}else if(characteristics[j].uuid == '6e400003b5a3f393e0a9e50e24dcca9e'){
-											console.log("RX characteristics found!");
-											ble.uartRx = characteristics[j];
-
-											ble.uartRx.on('read', uartRxData);
-
-											ble.uartRx.notify(true, function(error) {
-												console.log('RX notification on');
-											});
-											current_status = constant.CONN_STATUS.CONNECTED;
-										}
-									}
-								});
-							}
-						}			      	
-					}
-				});				
-			}
-		});
-
-		ble.peripheral.on('disconnect', disconnected);
-
-	}
-	else
-		current_status = constant.CONN_STATUS.IDLE;
-	*/
-		bleStatus = constant.CONN_STATUS.IDLE;
+	}, TIMEOUT);
 });
 
 ble.on('warning', function(message) {

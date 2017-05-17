@@ -4,23 +4,55 @@ var http = require('http');
 var express = require('express');
 var router = express.Router();
 var fs = require('fs');
-
-var isOpen = false;
+var serviceUUID = '713d0000503e4c75ba943148f18d941e';
 
 router.get('/', function(req, res){
 	console.log("add switchBle");
-
-	openPort(function(isOpen){
-		if (isOpen){
-			scan(function(body){
-				console.log(body);
-				res.end(JSON.stringify(body));
-			});
-		}
-		else
-			res.end("error");
+	scan(serviceUUID, function(body){
+		//res.end(JSON.stringify(body.toString()));
+		res.end(body);
 	});
 });
+
+function scan(reqServiceUUID, callback){
+	var jsonData = {'serviceUUID' : reqServiceUUID};
+	jsonData = JSON.stringify(jsonData);
+
+	var postheaders = {
+	    'Content-Type' : 'application/json',
+	    'Content-Length' : Buffer.byteLength(jsonData, 'utf8')
+	};
+	 
+	// the post options
+	var optionspost = {
+	    host : '127.0.0.1',
+	    port : 5000,
+	    path : '/scan',
+	    method : 'POST',
+	    headers : postheaders
+	};
+
+	// do the POST call
+	var reqPost = http.request(optionspost, function(res) {
+	    res.on('data', function(d) {
+	        console.info('POST result:\n');
+	        console.log(d.toString());
+	        console.info('\n\nPOST completed');
+	        callback(d);
+	    });
+	});
+	 
+	// write the json data
+	reqPost.write(jsonData);
+	reqPost.end();
+	reqPost.on('error', function(e) {
+	    console.error(e);
+	});
+
+}
+
+/*
+
 
 function scan(callback){
 	// the post options
@@ -72,32 +104,5 @@ function scan(callback){
 	    console.error(e);
 	});
 }
-
-function openPort(callback){
-	var optionsget = {
-	    host : '127.0.0.1',
-	    port : 4000,
-	    path : '/open',
-	    method : 'GET',
-	};
-  console.log("sending port open req");
-
-	http.request(optionsget, function(res) {
-		//console.log("statusCode: ", res.statusCode);
-		//console.log("headers: ", res.headers);
-
-		var body = '';
-		res.on('data', function(chunk){
-			body += chunk;
-		});
-
-		res.on('end', function(){
-			var fbResponse = JSON.parse(body);
-			//console.log("Got a body: ", body);
-			//console.log("Got a fbResponse: ", fbResponse.status);
-			callback(fbResponse.status);
-		});
-	}).end();
-}
-
+*/
 module.exports = router;
