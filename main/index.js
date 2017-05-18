@@ -14,6 +14,7 @@ var route_plug_turnOn = require('./routes/route_plug_turnOn');
 var route_plug_turnOff = require('./routes/route_plug_turnOff');
 var route_plug_monitor = require('./routes/route_plug_monitor');
 var route_plug_status = require('./routes/route_plug_status');
+var route_plug_del = require('./routes/route_plug_del');
 
 app.devices = {};
 
@@ -28,6 +29,7 @@ app.use('/add/plug', route_add_plug);
 app.use('/add/switchBle', route_add_switchBle);
 app.use('/plug/turnOn', route_plug_turnOn);
 app.use('/plug/turnOff', route_plug_turnOff);
+app.use('/plug/del', route_plug_del);
 app.use('/refresh', route_refresh, refreshDevice);
 app.use('/plug/status', route_plug_status);
 

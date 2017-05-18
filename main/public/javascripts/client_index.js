@@ -50,7 +50,7 @@ app.controller('MainController', function($rootScope, $scope, $http, SharedState
   	console.log("show add device");
   	location.href="#/showAdd"
   };
-
+/*
   $scope.addPlug = function() {
   	console.log("add plug");
     $scope.addMessage = "Scanning...";
@@ -67,11 +67,7 @@ app.controller('MainController', function($rootScope, $scope, $http, SharedState
         console.log( "failure message: " + response.data);
 		  });
   };
-
-  $scope.addSwitch = function(){
-  	$scope.addMessage = "Coming soon...";
-  };
-
+*/
   $scope.callPlug= function(plugUrl, plugId){
     var idJson = {id: plugId};
     var request = $http.post(plugUrl, idJson).then(function successCallback(res) {
@@ -126,10 +122,23 @@ app.controller('MainController', function($rootScope, $scope, $http, SharedState
 
   $scope.showPlug = function(plugId){
     console.log("showPlug - " + plugId);
-    location.href="#/showPlug"
+    location.href="#/showPlug";
     $scope.activePlugId = plugId;
     $scope.plugWaitStatus = true;
     $scope.timeoutID = setTimeout($scope.getPlugStatus,2000);
+  };
+
+  $scope.delPlug = function(plugId, event){
+    console.log("delPlug - " + plugId);
+    event.stopPropagation();
+    var idJson = {id: plugId};
+    console.log(idJson);
+    var request = $http.post("/plug/del", idJson).then(function successCallback(res) {
+      console.log(res.data);
+    }, function errorCallback(res) {
+      console.log( "failure message: " + res.data);
+    });
+    $scope.refreshDevices();
   };
 
   $scope.plugTurnOn= function(){

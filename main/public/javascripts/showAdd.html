@@ -16,9 +16,11 @@
     <div class="section ">
       <div class="container">
         <div class="row">
-          <div class="panel panel-default panel-add col-xs-12" ng-click="addPlug()" ui-turn-on="modal1">
-            <div class="panel-body">
-              Plug - Xbee
+          <div ng-controller="XbeeController">
+            <div class="panel panel-default panel-add col-xs-12" ng-click="addPlug()" ui-turn-on="modal1">
+              <div class="panel-body">
+                Plug - Xbee
+              </div>
             </div>
           </div>
           <div ng-controller="BleController">
