@@ -1,22 +1,19 @@
 {
   "plugs": [
     {
-      "name": " ",
-      "id": "0013a20040987b60",
+      "name": " PlugXbee",
+      "id": "0013a20040b93ace",
+      "status": 0
     },
     {
-      "name": " PlugXbee",
-      "id": "0013a20040b93ace"
+      "name": " ",
+      "id": "0013a20040987b60"
     }
   ],
   "switches": [
     {
-      "name": "swtich1",
-      "id": "abcdef1234567890"
-    },
-    {
-      "name": "swtich2",
-      "id": "abcdef1234567892"
+      "name": "TXRX",
+      "id": "c2:79:8d:2c:4f:37"
     }
   ],
   "lights": []

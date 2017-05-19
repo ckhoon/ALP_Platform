@@ -4,9 +4,9 @@ angular.
 	module('AlpGatewayApp').
 		controller('BleController', function($rootScope, $scope,  $http) {
 
-			$rootScope.addSwitch = function(){
+			$scope.addSwitch = function(){
 				console.log("add switch");
-		    $scope.addMessage = "Scanning...";
+		    $rootScope.addMessage = "Scanning...";
 				$http({
 				  method: 'GET',
 				  url: '/add/switchBle'
@@ -20,5 +20,23 @@ angular.
 					console.log("error message : " + response.data);
 				});
 			};
+
+		});
+
+angular.
+	module('AlpGatewayApp').
+		controller('ctrlBleHome', function($rootScope, $scope,  $http) {
+
+		  $scope.delSwitch = function(switchID, event){
+		    console.log("delSwitch - " + switchID);
+		    var idJson = {id: switchID};
+		    console.log(idJson);
+		    var request = $http.post("/switch/del", idJson).then(function successCallback(res) {
+		      console.log(res.data);
+		    }, function errorCallback(res) {
+		      console.log( "failure message: " + res.data);
+		    });
+		    $scope.refreshDevices();
+		  };
 
 		});

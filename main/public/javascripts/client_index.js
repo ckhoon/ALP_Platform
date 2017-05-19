@@ -86,11 +86,22 @@ app.controller('MainController', function($rootScope, $scope, $http, SharedState
     }).then(function successCallback(response) {
         //$scope.devices = response.data;
         console.log(response.data);
-        $scope.devices = response.data.plugs;
+        $scope.devices = response.data;
       }, function errorCallback(response) {
         console.log( "failure message: " + response.data);
       });
   };
+
+  $scope.trimName = function(txt){
+    var regexAplha = /[^0-9a-z]/gi;
+    txt = txt.replace(regexAplha, '');
+    txt = txt.substr(txt.length-4);
+    //var name = txt;
+    //name.toString().substr(txt.length-4);
+    //txt = txt.toString().subString(txt.length-4);
+    return txt;
+  };
+
 
   $scope.noConnection = false;
 

@@ -9,8 +9,8 @@ var serviceUUID = '713d0000503e4c75ba943148f18d941e';
 router.get('/', function(req, res){
 	console.log("add switchBle");
 	scan(serviceUUID, function(body){
-		//res.end(JSON.stringify(body.toString()));
-		res.end(body);
+		res.end(JSON.stringify(body));
+		//res.end(body);
 	});
 });
 
@@ -34,12 +34,32 @@ function scan(reqServiceUUID, callback){
 
 	// do the POST call
 	var reqPost = http.request(optionspost, function(res) {
-	    res.on('data', function(d) {
-	        console.info('POST result:\n');
-	        console.log(d.toString());
-	        console.info('\n\nPOST completed');
-	        callback(d);
-	    });
+		res.on('data', function(body) {
+			var newSwitch = {name: '' , id: -1};
+			var scanDevices = JSON.parse(body);
+			var devices = JSON.parse(fs.readFileSync('devices.json', 'utf8'));
+
+			for (let scanDevice of scanDevices){
+				var found =	devices.switches.filter(function(n){
+						return n.id == scanDevice.address;
+				});				
+				if (found.length == 0)
+				{
+					newSwitch.name = scanDevice.localName;
+					newSwitch.id = scanDevice.address;
+					devices.switches.push(newSwitch);
+					console.log(devices);
+					fs.writeFile ("devices.json", JSON.stringify(devices, null, 2), function(err) {
+						if (err) {
+							console.log(err);
+							throw err;
+						}
+					});
+					break;
+				}
+			}
+      callback(newSwitch);
+    });
 	});
 	 
 	// write the json data

@@ -15,6 +15,7 @@ var route_plug_turnOff = require('./routes/route_plug_turnOff');
 var route_plug_monitor = require('./routes/route_plug_monitor');
 var route_plug_status = require('./routes/route_plug_status');
 var route_plug_del = require('./routes/route_plug_del');
+var route_switch_del = require('./routes/route_switch_del');
 
 app.devices = {};
 
@@ -30,8 +31,9 @@ app.use('/add/switchBle', route_add_switchBle);
 app.use('/plug/turnOn', route_plug_turnOn);
 app.use('/plug/turnOff', route_plug_turnOff);
 app.use('/plug/del', route_plug_del);
-app.use('/refresh', route_refresh, refreshDevice);
 app.use('/plug/status', route_plug_status);
+app.use('/switch/del', route_switch_del);
+app.use('/refresh', route_refresh, refreshDevice);
 
 app.use('/test', test);
 
@@ -69,6 +71,7 @@ function refreshDevice(req, res, next)
 		app.ch.bindQueue(app.q.queue, XBEE_MQ_EX, app.activeplug.id);
 	}
 }
+/*
 
 // production error handler
 app.use(function(err, req, res, next) {
@@ -78,7 +81,7 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
+*/
 var port = 3000; 
 app.listen(port);
 console.log("Listening on port " + port);
