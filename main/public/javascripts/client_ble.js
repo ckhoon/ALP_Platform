@@ -39,4 +39,12 @@ angular.
 		    $scope.refreshDevices();
 		  };
 
+		  $scope.showSwitch = function(switchID){
+		    console.log("showSwitch - " + switchID);
+		    location.href="#/showSwitch";
+		    $scope.activeSwitchID = switchID;
+		    //$scope.waitStatus = true;
+		    //$rootScope.timeoutID = setTimeout($scope.getSwitchStatus,2000);
+		  };
+
 		});

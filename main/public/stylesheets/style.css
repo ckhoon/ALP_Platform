@@ -1,3 +1,18 @@
+.navbar{
+  background: #EF0C1D;
+  color: #ffffff !important;
+}
+
+.navbar-font{
+  color: #ffffff !important;; 
+}
+
+.fa-minus-circle{
+  color : #ff0000;
+  display: inline; 
+  float: right;
+}
+
 .app-content-loading {
   text-align: center;
   height: 100%;
@@ -14,25 +29,23 @@
   margin-left: -25px;
   margin-top: -25px;
 }
+.panel-default{
+  box-shadow: 0 3px 6px rgba(0,0,0,0.19), 0 2px 2px rgba(0,0,0,0.23);
+ }
 
 .panel-add {
-   height: 15rem; 
-   padding-top: 3rem;
-   font-size: 3rem;
-   text-align: center;
-   margin: 2px;
-   cursor: pointer;
+  height: 15rem; 
+  padding-top: 3rem;
+  font-size: 3rem;
+  text-align: center;
+  margin: 2px;
 }
 
-.panel-plug {
-   cursor: pointer;
+.panel-cursor {
+  cursor: pointer;
 }
 
-.panel-add:active {
-  background-color: #dfdfdf !important;
-}
-
-.panel-plug:active {
+.panel-cursor:active {
   background-color: #dfdfdf !important;
 }
 
@@ -46,6 +59,12 @@
 }
 
 #lightbulb {
+  font-size: 100px;
+  display: block;
+  text-align: center;
+}
+
+#powerOff {
   font-size: 100px;
   display: block;
   text-align: center;

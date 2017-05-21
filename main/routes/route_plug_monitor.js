@@ -26,8 +26,10 @@ function monitor(activeplug){
 				return (JSON.stringify(body.toString()));
 			});
 		}
-		else
+		else{
+			console.log("unable to open xbee port");
 			return ("error");
+		}
 	});
 };
 
@@ -40,7 +42,7 @@ function openPort(callback){
 	};
   console.log("sending port open req");
 
-	http.request(optionsget, function(res) {
+	var req = http.request(optionsget, function(res) {
 		//console.log("statusCode: ", res.statusCode);
 		//console.log("headers: ", res.headers);
 
@@ -55,7 +57,14 @@ function openPort(callback){
 			//console.log("Got a fbResponse: ", fbResponse.status);
 			callback(fbResponse.status);
 		});
-	}).end();
+
+	})
+	req.on('error', function(e) {
+    console.error(e);
+	});
+
+	req.end();
+
 }
 
 function sendCmd(plugid, callback){

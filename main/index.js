@@ -38,6 +38,12 @@ app.use('/refresh', route_refresh, refreshDevice);
 app.use('/test', test);
 
 amqp.connect('amqp://localhost', function(err, conn) {
+	if (err != null)
+	{
+		console.log("Err - no mq server");
+		return;
+	}
+
   conn.createChannel(function(err, ch) {
     var ex = XBEE_MQ_EX;
     ch.assertExchange(ex, 'topic', {durable: false});

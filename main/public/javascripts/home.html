@@ -6,11 +6,11 @@
         <div ng-repeat="device in devices.plugs">
           <div class="panel panel-default">
           	<div class="panel-heading">Plug</div>
-            <div class="panel-body panel-plug" href="#/showPlug" ng-click="showPlug(device.id)">
+            <div class="panel-body panel-cursor" href="#/showPlug" ng-click="showPlug(device.id)">
               <div>
                 <!-- <h3 style="display: inline">{{device.name}} - {{device.id.toString().substring(device.id.toString().length-4)}}</h3> -->
                 <h3 style="display: inline">{{device.id.toString()}}</h3>
-                <i class="fa fa-minus-circle fa-lg" style="display: inline; float: right" ng-click="delPlug(device.id, $event)"></i>
+                <i class="fa fa-minus-circle fa-lg" ng-click="delPlug(device.id, $event)"></i>
               </div>
             </div>
           </div>
@@ -20,11 +20,11 @@
           <div ng-repeat="device in devices.switches">
             <div class="panel panel-default">
               <div class="panel-heading">Switch</div>
-              <div class="panel-body panel-plug" href="#/showSwitch" ng-click="showSwitch(device.id)">
+              <div class="panel-body panel-cursor" href="#/showSwitch" ng-click="showSwitch(device.id)">
                 <div>
                   <!--<h3 style="display: inline">{{device.name}} - {{trimName(device.id.toString())}}</h3>-->
                   <h3 style="display: inline">{{device.id.toString()}}</h3>
-                  <i class="fa fa-minus-circle fa-lg" style="display: inline; float: right" ng-click="delSwitch(device.id, $event)"></i>
+                  <i class="fa fa-minus-circle fa-lg" ng-click="delSwitch(device.id, $event)"></i>
                 </div>
               </div>
             </div>

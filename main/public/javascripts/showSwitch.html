@@ -1,0 +1,26 @@
+<div ui-content-for="title">
+  <span>Switch</span>
+</div>
+
+<div class="btn-group pull-left" ui-content-for="navbarLeft">
+  <div class="btn btn-navbar btn-icon-only">
+    <a href="#/"><i class="fa fa-chevron-left fa-navbar navbar-font"></i></a>
+  </div>
+</div>
+
+<div class="btn-group pull-right" ui-content-for="navbarRight">
+</div>
+
+<div class="scrollable">
+  <div class="scrollable-content">
+    <div class="section ">
+      <div class="container">
+        <p ui-class="{'text-primary': bleSwitchStatus}" ui-class="{'text-default': !bleSwitchStatus}" class="text-muted" id="powerOff">
+          <i class="fa fa-power-off"></i>
+        </p>        
+      </div>
+    </div>
+  </div>
+</div>
+
+

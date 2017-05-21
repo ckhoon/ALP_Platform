@@ -12,6 +12,7 @@ app.config(function($routeProvider) {
   $routeProvider.when('/', {templateUrl: '../javascripts/home.html', reloadOnSearch: false});
   $routeProvider.when('/showAdd', {templateUrl: '../javascripts/showAdd.html', reloadOnSearch: false});
   $routeProvider.when('/showPlug', {templateUrl: '../javascripts/showPlug.html', reloadOnSearch: false});
+  $routeProvider.when('/showSwitch', {templateUrl: '../javascripts/showSwitch.html', reloadOnSearch: false});
 });
 
 app.config(['$locationProvider', function($locationProvider) {
@@ -21,6 +22,7 @@ app.config(['$locationProvider', function($locationProvider) {
 app.controller('MainController', function($rootScope, $scope, $http, SharedState) {
   //SharedState.initialize($scope, 'lightbulb');
   $scope.plugWaitStatus = false;
+  $scope.switchWaitStatus = false;
 
   $scope.$on("$routeChangeStart", function(event, newUrl, oldUrl) {
     if (newUrl)
@@ -42,7 +44,7 @@ app.controller('MainController', function($rootScope, $scope, $http, SharedState
   });
 
   $rootScope.$on('$routeChangeSuccess', function() {
-    if (!$scope.plugWaitStatus)
+    if (!$scope.plugWaitStatus && !$scope.waitStatus)
       $rootScope.loading = false;
   });
 
