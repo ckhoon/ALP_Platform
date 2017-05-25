@@ -1,6 +1,6 @@
 {
 	"type":"XBee",
-	"dev":"/dev/ttyUSB0",
+	"dev":"/dev/ttyS0",
 	"baudrate":9600,
 	"device":[
 		{"name":"test","addr":"0013A20040987B60","porti":"D4"},

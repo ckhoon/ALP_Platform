@@ -16,6 +16,7 @@
     <div class="section ">
       <div class="container">
         <div class="row">
+
           <div ng-controller="XbeeController">
             <div class="panel panel-default panel-add panel-cursor col-xs-12" ng-click="addPlug()" ui-turn-on="modal1">
               <div class="panel-body">
@@ -23,6 +24,7 @@
               </div>
             </div>
           </div>
+
           <div ng-controller="BleController">
             <div class="panel panel-default panel-add panel-cursor col-xs-12" ng-click="addSwitch()" ui-turn-on="modal1">
               <div class="panel-body">
@@ -30,11 +32,15 @@
               </div>
             </div>
           </div>
-          <div class="panel panel-default panel-add panel-cursor col-xs-12">
-            <div class="panel-body">
-              Light
+
+          <div ng-controller="MCController">
+            <div class="panel panel-default panel-add panel-cursor col-xs-12" ng-click="addCabinet()" ui-turn-on="modal1">
+              <div class="panel-body">
+                Medicine Cabinet
+              </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>

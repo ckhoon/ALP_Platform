@@ -5,16 +5,16 @@ var router = express.Router();
 
 router.post('/', function(req, res){
 	req.on('data', function(data) {
-		var reqPlug = JSON.parse(data);
+		var reqDev = JSON.parse(data);
 		var status = -1;
 
-		for (let plug of req.app.devices.plugs){
-			if (plug.id == reqPlug.id)
+		for (let dev of req.app.devices.switches){
+			if (dev.id == reqDev.id)
 			{
-				console.log(plug);
-				if(typeof plug.status != 'undefined')
+				console.log(dev);
+				if(typeof dev.status != 'undefined')
 				{
-					status = plug.status;
+					status = dev.status;
 					break;
 				}
 			}

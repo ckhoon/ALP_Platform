@@ -11,6 +11,6 @@
   "dependencies": {
     "amqplib": "^0.5.1",
     "express": "^4.15.2",
-    "noble": "^1.8.0"
+    "noble": "^1.8.1"
   }
 }

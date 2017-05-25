@@ -5,7 +5,7 @@
 
         <div ng-repeat="device in devices.plugs">
           <div class="panel panel-default">
-          	<div class="panel-heading">Plug</div>
+          	<div class="panel-heading panel-head-plug">Plug</div>
             <div class="panel-body panel-cursor" href="#/showPlug" ng-click="showPlug(device.id)">
               <div>
                 <!-- <h3 style="display: inline">{{device.name}} - {{device.id.toString().substring(device.id.toString().length-4)}}</h3> -->
@@ -19,7 +19,7 @@
         <div ng-controller="ctrlBleHome">
           <div ng-repeat="device in devices.switches">
             <div class="panel panel-default">
-              <div class="panel-heading">Switch</div>
+              <div class="panel-heading panel-head-switch">Switch</div>
               <div class="panel-body panel-cursor" href="#/showSwitch" ng-click="showSwitch(device.id)">
                 <div>
                   <!--<h3 style="display: inline">{{device.name}} - {{trimName(device.id.toString())}}</h3>-->

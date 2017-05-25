@@ -22,7 +22,8 @@ app.config(['$locationProvider', function($locationProvider) {
 app.controller('MainController', function($rootScope, $scope, $http, SharedState) {
   //SharedState.initialize($scope, 'lightbulb');
   $scope.plugWaitStatus = false;
-  $scope.switchWaitStatus = false;
+  $scope.waitStatus = false;
+  $scope.timeoutID = -1;
 
   $scope.$on("$routeChangeStart", function(event, newUrl, oldUrl) {
     if (newUrl)

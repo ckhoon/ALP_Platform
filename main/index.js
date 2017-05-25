@@ -1,5 +1,6 @@
 "use strict"
 const XBEE_MQ_EX = "xbee-mq-ex";
+const BLE_MQ_EX = "ble-mq-ex";
 
 var amqp = require('amqplib/callback_api');
 var path = require('path');
@@ -9,6 +10,7 @@ var test = require('./routes/route_test');
 var index = require('./routes/route_index');
 var route_add_plug = require('./routes/route_add_plug');
 var route_add_switchBle = require('./routes/route_add_switchBle');
+var route_add_cabinetBle = require('./routes/route_add_cabinetBle');
 var route_refresh = require('./routes/route_refresh');
 var route_plug_turnOn = require('./routes/route_plug_turnOn');
 var route_plug_turnOff = require('./routes/route_plug_turnOff');
@@ -16,6 +18,8 @@ var route_plug_monitor = require('./routes/route_plug_monitor');
 var route_plug_status = require('./routes/route_plug_status');
 var route_plug_del = require('./routes/route_plug_del');
 var route_switch_del = require('./routes/route_switch_del');
+var route_switch_status = require('./routes/route_switch_status');
+var route_switch_monitor = require('./routes/route_switch_monitor');
 
 app.devices = {};
 
@@ -28,11 +32,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/add/plug', route_add_plug);
 app.use('/add/switchBle', route_add_switchBle);
+app.use('/add/cabinetBle', route_add_cabinetBle);
 app.use('/plug/turnOn', route_plug_turnOn);
 app.use('/plug/turnOff', route_plug_turnOff);
 app.use('/plug/del', route_plug_del);
 app.use('/plug/status', route_plug_status);
 app.use('/switch/del', route_switch_del);
+app.use('/switch/status', route_switch_status);
 app.use('/refresh', route_refresh, refreshDevice);
 
 app.use('/test', test);
@@ -66,19 +72,40 @@ amqp.connect('amqp://localhost', function(err, conn) {
     });
     app.ch = ch;
   });
+
+  conn.createChannel(function(err, ch) {
+    var ex = BLE_MQ_EX;
+    ch.assertExchange(ex, 'topic', {durable: false});
+    ch.assertQueue('', {exclusive: true}, function(err, q) {
+    	app.bleQ = q;
+			ch.consume(app.bleQ.queue, function(msg) {
+				var reply = JSON.parse(msg.content);
+				console.log(reply.data.data);
+	    }, {noAck: true});
+    });
+    app.bleCh = ch;
+  });
+
 });
 
 function refreshDevice(req, res, next)
 {
-	console.log(app.devices.plugs);
 	for (let plug of app.devices.plugs){
+		plug.status = -1;
 		app.activeplug = plug;
 		route_plug_monitor(app.activeplug);
 		app.ch.bindQueue(app.q.queue, XBEE_MQ_EX, app.activeplug.id);
 	}
-}
-/*
 
+	route_switch_monitor(app.devices.switches);
+	for (let dev of app.devices.switches){
+		dev.status = -1;
+		app.ch.bindQueue(app.bleQ.queue, BLE_MQ_EX, dev.id);
+		console.log(dev.id);
+	}
+}
+
+/*
 // production error handler
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);

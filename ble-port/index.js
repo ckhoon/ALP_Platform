@@ -7,12 +7,15 @@ var noble = require('noble');
 
 var constant = require('./constant.js');
 var route_scan = require('./routes/route_scan');
+var route_connect = require('./routes/route_connect');
 
 var app = express();
 app.ble = noble;
+app.ble.peripherals = [];
 app.bleStatus = constant.CONN_STATUS.IDLE;
 
 app.use('/scan', route_scan);
+app.use('/connect', route_connect);
 
 amqp.connect('amqp://localhost', function(err, conn) {
   conn.createChannel(function(err, ch) {
@@ -37,4 +40,16 @@ var server = app.listen(5000, function () {
   console.log("ble app listening at " + port)
 });
 
+String.prototype.convertToAddress = function () {
+  return this.slice(0,2) + ":" + this.slice(2,4) + ":" + this.slice(4,6) + ":" + this.slice(6,8) + ":" + this.slice(8,10) + ":" + this.slice(10,12);
+};
+
+function dataCallBack(data, isNotification){
+  var frame = {'data' : data};
+  console.log(this._peripheralId.convertToAddress());
+  console.log("sent to q - " + JSON.stringify(frame));
+  app.ch.publish(BLE_MQ_EX, this._peripheralId.convertToAddress(), new Buffer(JSON.stringify(frame)));
+};
+
+app.datacb = dataCallBack;
 
