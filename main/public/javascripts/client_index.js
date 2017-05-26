@@ -21,9 +21,9 @@ app.config(['$locationProvider', function($locationProvider) {
 
 app.controller('MainController', function($rootScope, $scope, $http, SharedState) {
   //SharedState.initialize($scope, 'lightbulb');
-  $scope.plugWaitStatus = false;
-  $scope.waitStatus = false;
-  $scope.timeoutID = -1;
+  $rootScope.plugWaitStatus = false;
+  $rootScope.waitStatus = false;
+  $rootScope.timeoutID = -1;
 
   $scope.$on("$routeChangeStart", function(event, newUrl, oldUrl) {
     if (newUrl)
@@ -35,7 +35,8 @@ app.controller('MainController', function($rootScope, $scope, $http, SharedState
       }
       else if (newUrl.$$route.originalPath == "/"){
         console.log("refresh devices");
-        clearTimeout($scope.timeoutID);
+        clearTimeout($rootScope.timeoutID);
+        //clearTimeout($rootScope.timeoutID);
         $scope.refreshDevices();
       }
   });
@@ -45,7 +46,7 @@ app.controller('MainController', function($rootScope, $scope, $http, SharedState
   });
 
   $rootScope.$on('$routeChangeSuccess', function() {
-    if (!$scope.plugWaitStatus && !$scope.waitStatus)
+    if (!$rootScope.plugWaitStatus && !$rootScope.waitStatus)
       $rootScope.loading = false;
   });
 
@@ -113,8 +114,8 @@ app.controller('MainController', function($rootScope, $scope, $http, SharedState
     {
       var idJson = {id: $scope.activePlugId};
       var request = $http.post("/plug/status", idJson).then(function successCallback(res) {
-        if ($scope.plugWaitStatus){
-          $scope.plugWaitStatus = false;
+        if ($rootScope.plugWaitStatus){
+          $rootScope.plugWaitStatus = false;
           $rootScope.loading = false;
         }
         if (res.data.status == -1){
@@ -130,7 +131,7 @@ app.controller('MainController', function($rootScope, $scope, $http, SharedState
       }, function errorCallback(res) {
         console.log( "failure message: " + res.data);
       });
-      $scope.timeoutID = setTimeout($scope.getPlugStatus,2000);
+      $rootScope.timeoutID = setTimeout($scope.getPlugStatus,2000);
     }
   };
 
@@ -138,8 +139,8 @@ app.controller('MainController', function($rootScope, $scope, $http, SharedState
     console.log("showPlug - " + plugId);
     location.href="#/showPlug";
     $scope.activePlugId = plugId;
-    $scope.plugWaitStatus = true;
-    $scope.timeoutID = setTimeout($scope.getPlugStatus,2000);
+    $rootScope.plugWaitStatus = true;
+    $rootScope.timeoutID = setTimeout($scope.getPlugStatus,2000);
   };
 
   $scope.delPlug = function(plugId, event){
@@ -156,8 +157,8 @@ app.controller('MainController', function($rootScope, $scope, $http, SharedState
   };
 
   $scope.plugTurnOn= function(){
-    clearTimeout($scope.timeoutID);
-    $scope.timeoutID = setTimeout($scope.getPlugStatus,3000);
+    clearTimeout($rootScope.timeoutID);
+    $rootScope.timeoutID = setTimeout($scope.getPlugStatus,3000);
     var idJson = {id: $scope.activePlugId};
     console.log(idJson);
     var request = $http.post("/plug/turnOn", idJson).then(function successCallback(res) {
@@ -168,8 +169,8 @@ app.controller('MainController', function($rootScope, $scope, $http, SharedState
   };
 
   $scope.plugTurnOff= function(){
-    clearTimeout($scope.timeoutID);
-    $scope.timeoutID = setTimeout($scope.getPlugStatus,3000);
+    clearTimeout($rootScope.timeoutID);
+    $rootScope.timeoutID = setTimeout($scope.getPlugStatus,3000);
     var idJson = {id: $scope.activePlugId};
     var request = $http.post("/plug/turnOff", idJson).then(function successCallback(res) {
       console.log(res.data);

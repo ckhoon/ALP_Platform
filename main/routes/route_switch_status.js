@@ -8,7 +8,9 @@ router.post('/', function(req, res){
 		var reqDev = JSON.parse(data);
 		var status = -1;
 
+
 		for (let dev of req.app.devices.switches){
+			console.log (reqDev.id + " == " + dev.id);
 			if (dev.id == reqDev.id)
 			{
 				console.log(dev);

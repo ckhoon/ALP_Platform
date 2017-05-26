@@ -3,6 +3,7 @@ var constant = require('./../constant');
 var express = require('express');
 var router = express.Router();
 var ble = require('noble');
+
 var timeoutVar;
 var peripherals = [];
 const TIMEOUT = 5 * 1000;
@@ -93,9 +94,25 @@ router.post('/', function(req, res, next) {
 															bleFound.rxChara = charac;
 															charac.notify(true, function(err){
 																console.log('notification on');
+																setTimeout(function(){
+																	if (bleFound.txChara){
+																		bleFound.txChara.write(new Buffer([0x01]), false, function(error) {
+																			if(error) {
+																				console.log(error);
+																			}
+																			else{
+																				console.log('send cmd');
+																			}
+																		});
+																	}
+																}, 1000);
 															});
 															charac.subscribe();
 															charac.on('data', req.app.datacb);
+														}
+														else if(prop == 'writeWithoutResponse')
+														{
+															bleFound.txChara = charac;
 														}
 													}
 												}
@@ -125,6 +142,18 @@ function getNonConnectedDevs(peripherals, reqDevs){
 			console.log(peripheral.address + " match " + dev.id);
 			if(dev.id == peripheral.address){
 				found = true;
+
+				if (peripheral.txChara){
+					peripheral.txChara.write(new Buffer([0x01]), false, function(error) {
+						if(error) {
+							console.log(error);
+						}
+						else{
+							console.log('send cmd');
+						}
+					});
+				}
+
 				break;
 			}
 		}

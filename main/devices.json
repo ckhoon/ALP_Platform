@@ -3,12 +3,12 @@
     {
       "name": " PlugXbee",
       "id": "0013a20040b93ace",
-      "status": 0
+      "status": -1
     },
     {
       "name": " ",
       "id": "0013a20040987b60",
-      "status": 0
+      "status": -1
     }
   ],
   "switches": [
@@ -16,15 +16,15 @@
       "name": "DrSW",
       "id": "f2:18:de:87:44:00",
       "serviceUuids": [],
-      "serviceUuid": "54656d6173656b20506f6c7920454e47"
+      "serviceUuid": "54656d6173656b20506f6c7920454e47",
+      "status": 1
     },
     {
-      "name": "BT_MC\u0000",
-      "id": "f7:73:de:00:4d:de",
-      "serviceUuids": [
-        "6e400001b5a3f393e0a9e50e24dcca9e"
-      ],
-      "serviceUuid": "6e400001b5a3f393e0a9e50e24dcca9e"
+      "name": "DrSW",
+      "id": "c2:79:8d:2c:4f:37",
+      "serviceUuids": [],
+      "serviceUuid": "54656d6173656b20506f6c7920454e47",
+      "status": -1
     }
   ],
   "lights": []

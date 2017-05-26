@@ -6,6 +6,8 @@ var amqp = require('amqplib/callback_api');
 var path = require('path');
 var express = require('express');
 var app = express();
+var fs = require('fs');
+
 var test = require('./routes/route_test');
 var index = require('./routes/route_index');
 var route_add_plug = require('./routes/route_add_plug');
@@ -21,7 +23,9 @@ var route_switch_del = require('./routes/route_switch_del');
 var route_switch_status = require('./routes/route_switch_status');
 var route_switch_monitor = require('./routes/route_switch_monitor');
 
-app.devices = {};
+//app.devices = {};
+app.devices = JSON.parse(fs.readFileSync('devices.json', 'utf8'));
+
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -80,6 +84,14 @@ amqp.connect('amqp://localhost', function(err, conn) {
     	app.bleQ = q;
 			ch.consume(app.bleQ.queue, function(msg) {
 				var reply = JSON.parse(msg.content);
+      	for(let dev of app.devices.switches)
+      	{
+      		if(dev.id == msg.fields.routingKey)
+      		{
+      			dev.status = reply.data.data[0];
+						//console.log(app.devices.plugs);
+      		}
+      	}
 				console.log(reply.data.data);
 	    }, {noAck: true});
     });
@@ -115,6 +127,8 @@ app.use(function(err, req, res, next) {
   });
 });
 */
+
+
 var port = 3000; 
 app.listen(port);
 console.log("Listening on port " + port);

@@ -15,9 +15,14 @@
   <div class="scrollable-content">
     <div class="section ">
       <div class="container">
-        <p ui-class="{'text-primary': bleSwitchStatus}" ui-class="{'text-default': !bleSwitchStatus}" class="text-muted" id="powerOff">
-          <i class="fa fa-power-off"></i>
-        </p>        
+        <div ng-controller="ctrlBleShow">
+          <p ng-hide="activeSwitch.noConnection" ng-class="{'text-primary' : activeSwitch.status==1, 'text-danger' : activeSwitch.status==0}" id="powerOff">
+            <i class="fa fa-power-off"></i>
+          </p>
+          <p ng-hide="!activeSwitch.noConnection" class="text-muted" id="powerOff">
+            <i class="fa fa-plug"></i>
+          </p>
+        </div>       
       </div>
     </div>
   </div>

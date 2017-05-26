@@ -46,13 +46,10 @@ angular.
 
 		});
 
-
-
-
 angular.
 	module('AlpGatewayApp').
 		controller('ctrlBleHome', function($rootScope, $scope,  $http) {
-			$scope.activeSwitchID = -1;
+			$rootScope.activeSwitch = {id : -1};
 
 		  $scope.delSwitch = function(switchID, event){
 		    console.log("delSwitch - " + switchID);
@@ -69,15 +66,15 @@ angular.
 		  $scope.showSwitch = function(switchID){
 		    console.log("showSwitch - " + switchID);
 		    location.href="#/showSwitch";
-		    $scope.activeSwitchID = switchID;
+		    $rootScope.activeSwitch.id = switchID;
 		    $rootScope.waitStatus = true;
-		    $rootScope.timeoutID = setTimeout(getSwitchStatus,2000);
+		    $rootScope.timeoutID = setTimeout($scope.getSwitchStatus,2000);
 		  };
 
 		  $scope.getSwitchStatus = function(){
-		    if($scope.activeSwitchID != -1)
+		    if($rootScope.activeSwitch.id != -1)
 		    {
-		      var idJson = {id: $scope.activeSwitchID};
+		      var idJson = {id: $rootScope.activeSwitch.id};
 		      var request = $http.post("/switch/status", idJson).then(function successCallback(res) {
 		        if ($rootScope.waitStatus){
 		          $rootScope.waitStatus = false;
@@ -85,15 +82,15 @@ angular.
 		        }
 
 		        if (res.data.status == -1){
-		          $scope.activeSwitchID.status = false;
-		          $scope.noConnection = true;
+		          $rootScope.activeSwitch.status = false;
+		          $rootScope.activeSwitch.noConnection = true;
 		        }
 		        else{
-		          $scope.noConnection = false;
-		          $scope.activeSwitchID.status = res.data.status;
+		          $rootScope.activeSwitch.noConnection = false;
+		          $rootScope.activeSwitch.status = res.data.status;
 		        }
 
-		        console.log($scope.activeSwitchID.status);
+		        console.log($rootScope.activeSwitch.status);
 		      }, function errorCallback(res) {
 		        console.log( "failure message: " + res.data);
 		      });
@@ -102,3 +99,10 @@ angular.
 		  };
 
 		});
+
+angular.
+	module('AlpGatewayApp').
+		controller('ctrlBleShow', function($rootScope, $scope,  $http) {
+
+		});
+
