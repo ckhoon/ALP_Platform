@@ -8,6 +8,7 @@ var noble = require('noble');
 var constant = require('./constant.js');
 var route_scan = require('./routes/route_scan');
 var route_connect = require('./routes/route_connect');
+var route_delete = require('./routes/route_delete');
 
 var app = express();
 app.ble = noble;
@@ -16,6 +17,7 @@ app.bleStatus = constant.CONN_STATUS.IDLE;
 
 app.use('/scan', route_scan);
 app.use('/connect', route_connect);
+app.use('/delete', route_delete);
 
 amqp.connect('amqp://localhost', function(err, conn) {
   conn.createChannel(function(err, ch) {

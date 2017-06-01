@@ -84,39 +84,41 @@ router.post('/', function(req, res, next) {
 								timeoutVar = setTimeout(function() {
 									bleFound.discoverServices(nonConnDev.serviceUuid ,function(err, services){
 										//console.log(services);
-										if (services[0].uuid == nonConnDev.serviceUuid){
-											bleFound.service = services[0];
-											bleFound.service.discoverCharacteristics(null, function(error, characteristics){
-												//console.log(characteristics);
-												for (let charac of characteristics){
-													for(let prop of charac.properties){
-														if (prop == 'notify'){
-															bleFound.rxChara = charac;
-															charac.notify(true, function(err){
-																console.log('notification on');
-																setTimeout(function(){
-																	if (bleFound.txChara){
-																		bleFound.txChara.write(new Buffer([0x01]), false, function(error) {
-																			if(error) {
-																				console.log(error);
-																			}
-																			else{
-																				console.log('send cmd');
-																			}
-																		});
-																	}
-																}, 1000);
-															});
-															charac.subscribe();
-															charac.on('data', req.app.datacb);
-														}
-														else if(prop == 'writeWithoutResponse')
-														{
-															bleFound.txChara = charac;
+										if(services[0]){
+											if (services[0].uuid == nonConnDev.serviceUuid){
+												bleFound.service = services[0];
+												bleFound.service.discoverCharacteristics(null, function(error, characteristics){
+													//console.log(characteristics);
+													for (let charac of characteristics){
+														for(let prop of charac.properties){
+															if (prop == 'notify'){
+																bleFound.rxChara = charac;
+																charac.notify(true, function(err){
+																	console.log('notification on');
+																	setTimeout(function(){
+																		if (bleFound.txChara){
+																			bleFound.txChara.write(new Buffer([0x01]), false, function(error) {
+																				if(error) {
+																					console.log(error);
+																				}
+																				else{
+																					console.log('send cmd');
+																				}
+																			});
+																		}
+																	}, 1000);
+																});
+																charac.subscribe();
+																charac.on('data', req.app.datacb);
+															}
+															else if(prop == 'writeWithoutResponse')
+															{
+																bleFound.txChara = charac;
+															}
 														}
 													}
-												}
-											});
+												});
+											}
 										}
 									});
 								}, TIMEOUT_SERV);

@@ -10,10 +10,10 @@ router.post('/', function(req, res){
 
 
 		for (let dev of req.app.devices.switches){
-			console.log (reqDev.id + " == " + dev.id);
+			//console.log (reqDev.id + " == " + dev.id);
 			if (dev.id == reqDev.id)
 			{
-				console.log(dev);
+				//console.log(dev);
 				if(typeof dev.status != 'undefined')
 				{
 					status = dev.status;

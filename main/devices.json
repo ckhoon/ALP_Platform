@@ -7,8 +7,7 @@
     },
     {
       "name": " ",
-      "id": "0013a20040987b60",
-      "status": -1
+      "id": "0013a20040987b60"
     }
   ],
   "switches": [
@@ -17,14 +16,14 @@
       "id": "f2:18:de:87:44:00",
       "serviceUuids": [],
       "serviceUuid": "54656d6173656b20506f6c7920454e47",
-      "status": 1
+      "status": -1
     },
     {
       "name": "DrSW",
       "id": "c2:79:8d:2c:4f:37",
       "serviceUuids": [],
       "serviceUuid": "54656d6173656b20506f6c7920454e47",
-      "status": -1
+      "status": 0
     }
   ],
   "lights": []
