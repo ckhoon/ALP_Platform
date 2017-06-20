@@ -3,17 +3,30 @@
 var express = require('express');
 var router = express.Router();
 var http = require('http');
-var serviceUuid = '713d0000503e4c75ba943148f18d941e';
 
-function monitor(activeDevs){
-	sendCmd(activeDevs, function(body){
-		console.log("new" + JSON.stringify(body.toString()));
-	});
-};
+router.post('/', function(req, res){
+	console.log("ble plug turn on - ");
+	req.on('data', function(data) {
+		var reqDev = JSON.parse(data);
+		console.log(reqDev);
+		for (let dev of req.app.devices.blePlugs){
+			if (dev.id == reqDev.id)
+			{
 
-function sendCmd(activeDevs, callback){
-	var jsonData = JSON.stringify(activeDevs);
-	console.log(jsonData);
+				sendCmd(dev, function(body){
+					console.log(body.toString());
+				});
+
+			}
+		}
+		res.end();
+  });
+});
+
+function sendCmd(activeDev, callback){
+	activeDev.cmd = [0x00];
+	var jsonData = JSON.stringify(activeDev);
+	//console.log(jsonData);
 
 	var postheaders = {
 	    'Content-Type' : 'application/json',
@@ -23,14 +36,16 @@ function sendCmd(activeDevs, callback){
 	var optionspost = {
 	    host : '127.0.0.1',
 	    port : 5000,
-	    path : '/connect',
+	    path : '/sendCmd',
 	    method : 'POST',
 	    headers : postheaders
 	};
 
 	var reqPost = http.request(optionspost, function(res) {
 	    res.on('data', function(d) {
+	        console.info('POST result:\n');
 	        console.log(d.toString());
+	        console.info('\n\nPOST completed');
 	        callback(d);
 	    });
 	});
@@ -42,4 +57,4 @@ function sendCmd(activeDevs, callback){
 	});
 }
 
-module.exports = monitor;
+module.exports = router;

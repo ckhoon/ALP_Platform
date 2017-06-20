@@ -21,6 +21,19 @@
   position: relative;
 }
 
+.app-main{
+  height: 100%;
+  width: 100%;
+  overflow: hidden; 
+}
+
+.app-body {
+  height: 100%;
+  width: 100%;
+  background: #fff;
+  position: relative;
+}
+
 .loading-spinner {
   position: absolute;
   font-size: 50px;
@@ -58,9 +71,13 @@
   background: #afffaf !important;
 }
 
+.panel-head-ble-plug {
+  background: #ffafaf !important;
+}
+
 #addModal {
-	top:20%;
-	right:center;
+  height: 100%;
+	top: 20%;
 }
 
 #btnModalOk{

@@ -31,6 +31,20 @@
           </div>
         </div>
 
+        <div ng-controller="ctrlBlePlugHome">
+          <div ng-repeat="device in devices.blePlugs">
+            <div class="panel panel-default">
+              <div class="panel-heading panel-head-ble-plug">Ble Plug</div>
+              <div class="panel-body panel-cursor" href="#/showBlePlug" ng-click="showDev(device.id)">
+                <div>
+                  <!--<h3 style="display: inline">{{device.name}} - {{trimName(device.id.toString())}}</h3>-->
+                  <h3 style="display: inline">{{device.id.toString()}}</h3>
+                  <i class="fa fa-minus-circle fa-lg" ng-click="delDev(device.id, $event)"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <h3 ng-if="(devices.length == 0)" style="text-align: center;">No Device</h3>
       </div>

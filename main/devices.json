@@ -7,7 +7,8 @@
     },
     {
       "name": " ",
-      "id": "0013a20040987b60"
+      "id": "0013a20040987b60",
+      "status": 0
     }
   ],
   "switches": [
@@ -23,8 +24,22 @@
       "id": "c2:79:8d:2c:4f:37",
       "serviceUuids": [],
       "serviceUuid": "54656d6173656b20506f6c7920454e47",
-      "status": 0
+      "status": -1
     }
   ],
-  "lights": []
+  "lights": [],
+  "blePlugs": [
+    {
+      "name": "IOo",
+      "id": "cd:d5:f3:22:e1:8b",
+      "serviceUuids": [],
+      "serviceUuid": "54656d6173656b20506f6c7920454e47"
+    },
+    {
+      "name": "IOo",
+      "id": "f9:dd:a6:36:09:92",
+      "serviceUuids": [],
+      "serviceUuid": "54656d6173656b20506f6c7920454e47"
+    }
+  ]
 }

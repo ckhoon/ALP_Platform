@@ -4,23 +4,27 @@ var app = angular.module('AlpGatewayApp', [
   'ngRoute',
   'mobile-angular-ui',
   'mobile-angular-ui.gestures',
-  'mobile-angular-ui.core.sharedState'
+  'mobile-angular-ui.core.sharedState',
+  'oc.lazyLoad'
 ]);
-
 
 app.config(function($routeProvider) {
   $routeProvider.when('/', {templateUrl: '../javascripts/home.html', reloadOnSearch: false});
   $routeProvider.when('/showAdd', {templateUrl: '../javascripts/showAdd.html', reloadOnSearch: false});
   $routeProvider.when('/showPlug', {templateUrl: '../javascripts/showPlug.html', reloadOnSearch: false});
   $routeProvider.when('/showSwitch', {templateUrl: '../javascripts/showSwitch.html', reloadOnSearch: false});
+  $routeProvider.when('/showBlePlug', {templateUrl: '../javascripts/showBlePlug.html', reloadOnSearch: false});
 });
 
 app.config(['$locationProvider', function($locationProvider) {
   $locationProvider.hashPrefix('');
 }]);
 
-app.controller('MainController', function($rootScope, $scope, $http, SharedState) {
+app.controller('MainController', function($rootScope, $scope, $http, SharedState, $ocLazyLoad) {
   //SharedState.initialize($scope, 'lightbulb');
+
+  //$ocLazyLoad.load('../javascripts/client_blePlug.js');
+
   $rootScope.plugWaitStatus = false;
   $rootScope.waitStatus = false;
   $rootScope.timeoutID = -1;
