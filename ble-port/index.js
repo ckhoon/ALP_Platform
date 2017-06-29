@@ -50,8 +50,7 @@ String.prototype.convertToAddress = function () {
 
 function dataCallBack(data, isNotification){
   var frame = {'data' : data};
-  console.log(this._peripheralId.convertToAddress());
-  console.log("sent to q - " + JSON.stringify(frame));
+  console.log(this._peripheralId.convertToAddress() + " sent to q - " + JSON.stringify(frame));
   app.ch.publish(BLE_MQ_EX, this._peripheralId.convertToAddress(), new Buffer(JSON.stringify(frame)));
 };
 

@@ -7,24 +7,19 @@
     },
     {
       "name": " ",
-      "id": "0013a20040987b60",
-      "status": 0
+      "id": "0013a20040987b60"
     }
   ],
   "switches": [
     {
       "name": "DrSW",
-      "id": "f2:18:de:87:44:00",
-      "serviceUuids": [],
-      "serviceUuid": "54656d6173656b20506f6c7920454e47",
-      "status": -1
-    },
-    {
-      "name": "DrSW",
       "id": "c2:79:8d:2c:4f:37",
       "serviceUuids": [],
       "serviceUuid": "54656d6173656b20506f6c7920454e47",
-      "status": -1
+      "status": -1,
+      "cmd": [
+        1
+      ]
     }
   ],
   "lights": [],
@@ -33,13 +28,31 @@
       "name": "IOo",
       "id": "cd:d5:f3:22:e1:8b",
       "serviceUuids": [],
-      "serviceUuid": "54656d6173656b20506f6c7920454e47"
+      "serviceUuid": "54656d6173656b20506f6c7920454e47",
+      "status": 0,
+      "cmd": [
+        3
+      ]
     },
     {
       "name": "IOo",
       "id": "f9:dd:a6:36:09:92",
       "serviceUuids": [],
-      "serviceUuid": "54656d6173656b20506f6c7920454e47"
+      "serviceUuid": "54656d6173656b20506f6c7920454e47",
+      "status": -1,
+      "cmd": [
+        3
+      ]
+    },
+    {
+      "name": "IOo",
+      "id": "f2:18:de:87:44:00",
+      "serviceUuids": [],
+      "serviceUuid": "54656d6173656b20506f6c7920454e47",
+      "status": -1,
+      "cmd": [
+        3
+      ]
     }
   ]
 }

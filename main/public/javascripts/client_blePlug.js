@@ -30,6 +30,7 @@ angular.
 
 		  $scope.delDev = function(devID, event){
 		    console.log("del ble plug - " + devID);
+        event.stopPropagation();
 		    var idJson = {id: devID};
 		    console.log(idJson);
 		    var request = $http.post("/ble/plug/del", idJson).then(function successCallback(res) {

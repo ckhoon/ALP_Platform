@@ -1,0 +1,26 @@
+<div class="scrollable">
+  <div class="scrollable-content">
+    <div class="section">
+      <div class="container">
+        <div ng-controller="ctrlRules">
+
+          <div ng-repeat="device in devices.plugs">
+            <div class="panel panel-default">
+            	<div class="panel-heading panel-head-plug">Plug</div>
+              <div class="panel-body panel-cursor" href="#/showPlug" ng-click="showPlug(device.id)">
+                <div>
+                  <!-- <h3 style="display: inline">{{device.name}} - {{device.id.toString().substring(device.id.toString().length-4)}}</h3> -->
+                  <h3 style="display: inline">{{device.id.toString()}}</h3>
+                  <i class="fa fa-minus-circle fa-lg" ng-click="delPlug(device.id, $event)"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <h3 ng-if="(rules.length == 0)" style="text-align: center;">No Rule</h3>
+      </div>
+    </div>
+  </div>
+</div>

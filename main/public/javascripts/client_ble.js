@@ -53,6 +53,7 @@ angular.
 
 		  $scope.delSwitch = function(switchID, event){
 		    console.log("delSwitch - " + switchID);
+        event.stopPropagation();
 		    var idJson = {id: switchID};
 		    console.log(idJson);
 		    var request = $http.post("/switch/del", idJson).then(function successCallback(res) {

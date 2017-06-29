@@ -11,9 +11,11 @@ var app = angular.module('AlpGatewayApp', [
 app.config(function($routeProvider) {
   $routeProvider.when('/', {templateUrl: '../javascripts/home.html', reloadOnSearch: false});
   $routeProvider.when('/showAdd', {templateUrl: '../javascripts/showAdd.html', reloadOnSearch: false});
-  $routeProvider.when('/showPlug', {templateUrl: '../javascripts/showPlug.html', reloadOnSearch: false});
+  $routeProvider.when('/showXbeePlug', {templateUrl: '../javascripts/showPlug.html', reloadOnSearch: false});
   $routeProvider.when('/showSwitch', {templateUrl: '../javascripts/showSwitch.html', reloadOnSearch: false});
   $routeProvider.when('/showBlePlug', {templateUrl: '../javascripts/showBlePlug.html', reloadOnSearch: false});
+  $routeProvider.when('/showRule', {templateUrl: '../javascripts/showRule.html', reloadOnSearch: false});
+  $routeProvider.when('/showRules', {templateUrl: '../javascripts/showRules.html', reloadOnSearch: false});
 });
 
 app.config(['$locationProvider', function($locationProvider) {
@@ -21,23 +23,26 @@ app.config(['$locationProvider', function($locationProvider) {
 }]);
 
 app.controller('MainController', function($rootScope, $scope, $http, SharedState, $ocLazyLoad) {
-  //SharedState.initialize($scope, 'lightbulb');
-
   //$ocLazyLoad.load('../javascripts/client_blePlug.js');
 
-  $rootScope.plugWaitStatus = false;
+  //$rootScope.plugWaitStatus = false;
+  //$scope.noConnection = false;
   $rootScope.waitStatus = false;
   $rootScope.timeoutID = -1;
 
+
   $scope.$on("$routeChangeStart", function(event, newUrl, oldUrl) {
     if (newUrl)
+      /*
       if(newUrl.$$route.originalPath == "/callPlug")
       {
         console.log(newUrl.$$route.originalPath);
         $scope.callPlug("/test", 12345);
         alert("first before loading");
       }
-      else if (newUrl.$$route.originalPath == "/"){
+      else 
+        */
+      if (newUrl.$$route.originalPath == "/"){
         console.log("refresh devices");
         clearTimeout($rootScope.timeoutID);
         //clearTimeout($rootScope.timeoutID);
@@ -50,39 +55,14 @@ app.controller('MainController', function($rootScope, $scope, $http, SharedState
   });
 
   $rootScope.$on('$routeChangeSuccess', function() {
-    if (!$rootScope.plugWaitStatus && !$rootScope.waitStatus)
+    //if (!$rootScope.plugWaitStatus && !$rootScope.waitStatus)
+    if (!$rootScope.waitStatus)
       $rootScope.loading = false;
   });
 
   $scope.showAdd = function() {
   	console.log("show add device");
   	location.href="#/showAdd"
-  };
-/*
-  $scope.addPlug = function() {
-  	console.log("add plug");
-    $scope.addMessage = "Scanning...";
-		$http({
-		  method: 'GET',
-		  url: '/add/plug'
-		}).then(function successCallback(response) {
-		    console.log(response.data.id);
-        if (response.data.id == -1)
-          $scope.addMessage = "No new plug found";
-        else
-          $scope.addMessage = "New plug added. Id - " + response.data.id;
-		  }, function errorCallback(response) {
-        console.log( "failure message: " + response.data);
-		  });
-  };
-*/
-  $scope.callPlug= function(plugUrl, plugId){
-    var idJson = {id: plugId};
-    var request = $http.post(plugUrl, idJson).then(function successCallback(res) {
-      console.log(res.data);
-    }, function errorCallback(res) {
-      console.log( "failure message: " + res.data);
-    });
   };
 
   $scope.refreshDevices = function(){
@@ -100,18 +80,45 @@ app.controller('MainController', function($rootScope, $scope, $http, SharedState
       });
   };
 
-  $scope.trimName = function(txt){
-    var regexAplha = /[^0-9a-z]/gi;
-    txt = txt.replace(regexAplha, '');
-    txt = txt.substr(txt.length-4);
-    //var name = txt;
-    //name.toString().substr(txt.length-4);
-    //txt = txt.toString().subString(txt.length-4);
-    return txt;
+
+/*
+  $scope.addPlug = function() {
+  	console.log("add plug");
+    $scope.addMessage = "Scanning...";
+		$http({
+		  method: 'GET',
+		  url: '/add/plug'
+		}).then(function successCallback(response) {
+		    console.log(response.data.id);
+        if (response.data.id == -1)
+          $scope.addMessage = "No new plug found";
+        else
+          $scope.addMessage = "New plug added. Id - " + response.data.id;
+		  }, function errorCallback(response) {
+        console.log( "failure message: " + response.data);
+		  });
   };
 
+  $scope.delPlug = function(plugId, event){
+    console.log("delPlug - " + plugId);
+    event.stopPropagation();
+    var idJson = {id: plugId};
+    console.log(idJson);
+    var request = $http.post("/plug/del", idJson).then(function successCallback(res) {
+      console.log(res.data);
+    }, function errorCallback(res) {
+      console.log( "failure message: " + res.data);
+    });
+    $scope.refreshDevices();
+  };
 
-  $scope.noConnection = false;
+  $scope.showPlug = function(plugId){
+    console.log("showPlug - " + plugId);
+    location.href="#/showPlug";
+    $scope.activePlugId = plugId;
+    $rootScope.plugWaitStatus = true;
+    $rootScope.timeoutID = setTimeout($scope.getPlugStatus,2000);
+  };
 
   $scope.getPlugStatus = function(){
     if($scope.activePlugId != -1)
@@ -139,27 +146,6 @@ app.controller('MainController', function($rootScope, $scope, $http, SharedState
     }
   };
 
-  $scope.showPlug = function(plugId){
-    console.log("showPlug - " + plugId);
-    location.href="#/showPlug";
-    $scope.activePlugId = plugId;
-    $rootScope.plugWaitStatus = true;
-    $rootScope.timeoutID = setTimeout($scope.getPlugStatus,2000);
-  };
-
-  $scope.delPlug = function(plugId, event){
-    console.log("delPlug - " + plugId);
-    event.stopPropagation();
-    var idJson = {id: plugId};
-    console.log(idJson);
-    var request = $http.post("/plug/del", idJson).then(function successCallback(res) {
-      console.log(res.data);
-    }, function errorCallback(res) {
-      console.log( "failure message: " + res.data);
-    });
-    $scope.refreshDevices();
-  };
-
   $scope.plugTurnOn= function(){
     clearTimeout($rootScope.timeoutID);
     $rootScope.timeoutID = setTimeout($scope.getPlugStatus,3000);
@@ -183,6 +169,29 @@ app.controller('MainController', function($rootScope, $scope, $http, SharedState
     });
   };
 
+
+
+  $scope.callPlug= function(plugUrl, plugId){
+    var idJson = {id: plugId};
+    var request = $http.post(plugUrl, idJson).then(function successCallback(res) {
+      console.log(res.data);
+    }, function errorCallback(res) {
+      console.log( "failure message: " + res.data);
+    });
+  };
+
+  $scope.trimName = function(txt){
+    var regexAplha = /[^0-9a-z]/gi;
+    txt = txt.replace(regexAplha, '');
+    txt = txt.substr(txt.length-4);
+    //var name = txt;
+    //name.toString().substr(txt.length-4);
+    //txt = txt.toString().subString(txt.length-4);
+    return txt;
+  };
+
+
+*/
 
 });
 

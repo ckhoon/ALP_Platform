@@ -14,7 +14,7 @@ router.post('/', function(req, res, next) {
 
 		console.log(reqDev);
 		for (let peripheral of req.app.ble.peripherals){
-			console.log(peripheral.address + " match " + reqDev.id);
+			//console.log(peripheral.address + " match " + reqDev.id);
 			if(reqDev.id == peripheral.address){
 				console.log(reqDev.cmd);
 				if (peripheral.txChara){
@@ -28,9 +28,8 @@ router.post('/', function(req, res, next) {
 						}
 					});
 				}
-
+				break;
 			}
-			break;
 		}
 		res.end();
 	});
