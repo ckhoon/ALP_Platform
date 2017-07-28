@@ -5,7 +5,7 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 var serviceUuid = 'Temasek Poly ENG';
-var devName = 'IOo';
+var devName = 'DrctrlSW';
 
 String.prototype.convertToHex = function (delim) {
     return this.split("").map(function(c) {
@@ -15,7 +15,7 @@ String.prototype.convertToHex = function (delim) {
 serviceUuid = serviceUuid.convertToHex();
 
 router.get('/', function(req, res){
-	console.log("add ble plug");
+	console.log("add ble door");
 	scan(devName, function(body){
 		res.end(JSON.stringify(body));
 		//res.end(body);
@@ -48,7 +48,7 @@ function scan(reqName, callback){
 			var devices = JSON.parse(fs.readFileSync('devices.json', 'utf8'));
 
 			for (let scanDevice of scanDevices){
-				var found =	devices.blePlugs.filter(function(n){
+				var found =	devices.bleDoors.filter(function(n){
 						return n.id == scanDevice.address;
 				});				
 				if (found.length == 0)
@@ -57,7 +57,7 @@ function scan(reqName, callback){
 					newDev.id = scanDevice.address;
 					newDev.serviceUuids = scanDevice.serviceUuids;
 					newDev.serviceUuid = serviceUuid;
-					devices.blePlugs.push(newDev);
+					devices.bleDoors.push(newDev);
 					console.log(devices);
 					fs.writeFile ("devices.json", JSON.stringify(devices, null, 2), function(err) {
 						if (err) {
@@ -81,58 +81,4 @@ function scan(reqName, callback){
 
 }
 
-/*
-
-
-function scan(callback){
-	// the post options
-	var optionsget = {
-	    host : '127.0.0.1',
-	    port : 4000,
-	    path : '/scan',
-	    method : 'GET',
-	};
-
-	var reqGet = http.request(optionsget, function(res) { 
-		var body = '';
-		res.on('data', function(chunk){
-			body += chunk;
-		});
-
-		res.on('end', function(){
-			var newPlug = {name: '' , id: -1};
-			var scanDevices = JSON.parse(body);
-			console.log(scanDevices);
-			var devices = JSON.parse(fs.readFileSync('devices.json', 'utf8'));
-
-			for (let scanDevice of scanDevices){
-				var found =	devices.plugs.filter(function(n){
-						return n.id == scanDevice.nodeIdentification.remote64;
-				});
-				if (found.length == 0)
-				{
-					newPlug.name = scanDevice.nodeIdentification.nodeIdentifier;
-					newPlug.id = scanDevice.nodeIdentification.remote64;
-					devices.plugs.push(newPlug);
-					console.log(devices);
-					fs.writeFile ("devices.json", JSON.stringify(devices, null, 2), function(err) {
-						if (err) {
-							console.log(err);
-							throw err;
-						}
-					});
-					break;
-				}
-			}
-			callback(newPlug);
-		});
-	});
-
-	reqGet.end();
-
-	reqGet.on('error', function(e) {
-	    console.error(e);
-	});
-}
-*/
 module.exports = router;

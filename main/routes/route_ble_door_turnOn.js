@@ -5,18 +5,16 @@ var router = express.Router();
 var http = require('http');
 
 router.post('/', function(req, res){
-	console.log("ble plug turn off - ");
+	console.log("ble door turn on - ");
 	req.on('data', function(data) {
 		var reqDev = JSON.parse(data);
 		console.log(reqDev);
-		for (let dev of req.app.devices.blePlugs){
+		for (let dev of req.app.devices.bleDoors){
 			if (dev.id == reqDev.id)
 			{
-
 				sendCmd(dev, function(body){
 					console.log(body.toString());
 				});
-
 			}
 		}
 		res.end();
@@ -24,7 +22,7 @@ router.post('/', function(req, res){
 });
 
 function sendCmd(activeDev, callback){
-	activeDev.cmd = [0x00];
+	activeDev.cmd = [0x01];
 	var jsonData = JSON.stringify(activeDev);
 	//console.log(jsonData);
 

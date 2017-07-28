@@ -22,10 +22,25 @@ app.use('/delete', route_delete);
 app.use('/sendCmd', route_sendCmd);
 
 amqp.connect('amqp://localhost', function(err, conn) {
+  if (err != null)
+  {
+    console.log("Err - no mq server");
+    return;
+  }
+
   conn.createChannel(function(err, ch) {
     var ex = BLE_MQ_EX;
     ch.assertExchange(ex, 'topic', {durable: false});
+    ch.assertQueue('', {exclusive: true}, function(err, q) {
+      app.q = q;
+      ch.consume(app.q.queue, function(msg) {
+        //var reply = JSON.parse(msg.content);
+        console.log(msg);
+      }, {noAck: true});
+      ch.bindQueue(app.q.queue, BLE_MQ_EX, "testmsg");
+    });
     app.ch = ch;
+
   });
 });
 
@@ -55,4 +70,3 @@ function dataCallBack(data, isNotification){
 };
 
 app.datacb = dataCallBack;
-

@@ -1,0 +1,70 @@
+{
+  "devices": [
+    {
+      "device-grp-id": "81810001",
+      "q-exchange": "xbee-mq-ex",
+      "name": "XBee Plug",
+      "events": [
+        {
+          "event-id": "86860001"
+        }
+      ],
+      "actions": [
+        {
+          "action-id": "87870001"
+        }
+      ]
+    },
+
+    {
+      "device-grp-id": "81810002",
+      "q-exchange": "ble-mq-ex",
+      "name": "Ble Plug",
+      "events": [
+        {
+          "event-id": "86860002"
+        }
+      ],
+      "actions": [
+        {
+          "action-id": "87870002"
+        }
+      ]
+    },
+
+    {
+      "device-grp-id": "81810003",
+      "q-exchange": "ble-mq-ex",
+      "name": "Ble Plug",
+      "events": [
+        {
+          "event-id": "86860003"
+        }
+      ],
+      "actions": [
+        {
+          "action-id": "87870003"
+        }
+      ]
+    }
+
+  ],
+
+  "events": [
+    {
+      "event-id": "86860001",
+      "type": "boolean"
+    }      
+  ],
+
+  "actions": [
+    {
+      "action-id": "87870001",
+      "api": "/ble/plug/turnOn",
+      "message": {
+        "value": "boolean"
+      }
+    }
+  ]
+
+}

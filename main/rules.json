@@ -1,0 +1,51 @@
+{
+
+  "rules": [
+    {
+      "alias": "Switch control Plug",
+      "id": "88880001",
+      "events": [
+        {
+          "device-grp-id": "81810003",
+          "q-exchange": "ble-mq-ex",
+          "event-id": "86860001",
+          "type": "boolean",
+          "condition": "=",
+          "value": "true"
+        }
+      ],
+      "actions": [
+        {
+          "api": "/ble/plug/turnOn",
+          "message": {
+            "value": "true"
+          }
+        }
+      ]
+    },
+
+    {
+      "alias": "Dummy rule",
+      "id": "88880002",
+      "events": [
+        {
+          "device-grp-id": "81810003",
+          "q-exchange": "ble-mq-ex",
+          "event-id": "86860001",
+          "type": "boolean",
+          "condition": "=",
+          "value": "true"
+        }
+      ],
+      "actions": [
+        {
+          "api": "/ble/plug/turnOn",
+          "message": {
+            "value": "true"
+          }
+        }
+      ]
+    }
+  ]
+
+}

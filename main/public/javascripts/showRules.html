@@ -1,26 +1,35 @@
-<div class="scrollable">
-  <div class="scrollable-content">
-    <div class="section">
-      <div class="container">
-        <div ng-controller="ctrlRules">
+<div ui-content-for="title">
+  <span>Rules</span>
+</div>
 
-          <div ng-repeat="device in devices.plugs">
-            <div class="panel panel-default">
-            	<div class="panel-heading panel-head-plug">Plug</div>
-              <div class="panel-body panel-cursor" href="#/showPlug" ng-click="showPlug(device.id)">
-                <div>
-                  <!-- <h3 style="display: inline">{{device.name}} - {{device.id.toString().substring(device.id.toString().length-4)}}</h3> -->
-                  <h3 style="display: inline">{{device.id.toString()}}</h3>
-                  <i class="fa fa-minus-circle fa-lg" ng-click="delPlug(device.id, $event)"></i>
+<div ng-controller="ctrlRules">
+
+  <div class="btn-group pull-right" ui-content-for="navbarRight">
+      <div ng-click="showAddRules()" class="btn sidebar-right-toggle navbar-font">
+          <i class="fa fa-plus navbar-font"></i> Add
+      </div>
+  </div>
+
+  <div class="scrollable">
+    <div class="scrollable-content">
+      <div class="section">
+        <div class="container">
+            <div ng-repeat="rule in rules">
+              <div class="panel panel-default">
+              	<div class="panel-heading panel-head-plug">Rule</div>
+                <div class="panel-body panel-cursor" href="#/showRule" ng-click="showRule(rule.id)">
+                  <div>
+                    <h3 style="display: inline">{{rule.alias}}</h3>
+                    <i class="fa fa-minus-circle fa-lg" ng-click="delRule(rule.id, $event)"></i>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+            <h3 ng-if="(rules.length == 0)" style="text-align: center;">No Rule</h3>
 
         </div>
-
-        <h3 ng-if="(rules.length == 0)" style="text-align: center;">No Rule</h3>
       </div>
     </div>
   </div>
+
 </div>

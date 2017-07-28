@@ -75,6 +75,10 @@
   background: #ffafaf !important;
 }
 
+.panel-head-ble-door {
+  background: #ffefaf !important;
+}
+
 #addModal {
   height: 100%;
 	top: 20%;

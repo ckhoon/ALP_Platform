@@ -1,0 +1,49 @@
+<div ui-content-for="title">
+  <span>Plug</span>
+</div>
+
+<div class="btn-group pull-left" ui-content-for="navbarLeft">
+  <div class="btn btn-navbar btn-icon-only">
+    <a href="#/"><i class="fa fa-chevron-left fa-navbar navbar-font"></i></a>
+  </div>
+</div>
+
+<div class="btn-group pull-right" ui-content-for="navbarRight">
+</div>
+
+<div class="scrollable">
+  <div class="scrollable-content">
+    <div class="section ">
+      <div class="container">
+
+        <div ng-controller="ctrlBlePlugShow">
+
+          <p ng-hide="activeDev.noConnection" ng-class="{'text-primary' : activeDev.status==1, 'text-default' : activeDev.status==0}" id="lightbulb">
+            <i class="fa fa-lightbulb-o"></i>
+          </p>
+
+          <div ng-hide="activeDev.noConnection" class="btn-group justified nav-tabs">
+            <a 
+              ng-class="{'active' : activeDev.status==1}"
+              class="btn btn-default" href ng-click="plugOn()">
+                Turn On
+            </a>
+            <a
+              ng-class="{'active' : activeDev.status==0}"
+              class="btn btn-default" href ng-click="plugOff()">
+                Turn Off
+            </a>       
+          </div>
+
+          <p ng-hide="!activeDev.noConnection" class="text-muted" id="powerOff">
+            <i class="fa fa-plug"></i>
+          </p>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+

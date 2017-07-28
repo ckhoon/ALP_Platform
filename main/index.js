@@ -12,26 +12,39 @@ var fs = require('fs');
 
 var test = require('./routes/route_test');
 var index = require('./routes/route_index');
+
 var route_add_plug = require('./routes/route_add_plug');
 var route_add_switchBle = require('./routes/route_add_switchBle');
 var route_add_ble_Plug = require('./routes/route_add_ble_Plug');
+var route_add_ble_door = require('./routes/route_add_ble_door');
 var route_add_cabinetBle = require('./routes/route_add_cabinetBle');
-var route_refresh = require('./routes/route_refresh');
+
+var route_plug_del = require('./routes/route_plug_del');
+var route_plug_status = require('./routes/route_plug_status');
 var route_plug_turnOn = require('./routes/route_plug_turnOn');
 var route_plug_turnOff = require('./routes/route_plug_turnOff');
 var route_plug_monitor = require('./routes/route_plug_monitor');
-var route_plug_status = require('./routes/route_plug_status');
-var route_plug_del = require('./routes/route_plug_del');
+
 var route_switch_del = require('./routes/route_switch_del');
 var route_switch_status = require('./routes/route_switch_status');
 var route_switch_monitor = require('./routes/route_switch_monitor');
+
+var route_ble_plug_del = require('./routes/route_ble_plug_del');
 var route_ble_plug_status = require('./routes/route_ble_plug_status');
 var route_ble_plug_turnOn = require('./routes/route_ble_plug_turnOn');
 var route_ble_plug_turnOff = require('./routes/route_ble_plug_turnOff');
+
+var route_ble_door_del = require('./routes/route_ble_door_del');
+var route_ble_door_turnOn = require('./routes/route_ble_door_turnOn');
+
 var route_ble_sendCmd = require('./routes/route_ble_sendCmd');
+
+var route_refresh = require('./routes/route_refresh');
+var route_refreshRules = require('./routes/route_refreshRules');
 
 //app.devices = {};
 app.devices = JSON.parse(fs.readFileSync('devices.json', 'utf8'));
+app.rules = JSON.parse(fs.readFileSync('rules.json', 'utf8'));
 
 
 app.set('views', path.join(__dirname, 'views'));
@@ -45,16 +58,27 @@ app.use('/add/plug', route_add_plug);
 app.use('/add/switchBle', route_add_switchBle);
 app.use('/add/cabinetBle', route_add_cabinetBle);
 app.use('/add/ble/plug', route_add_ble_Plug);
-app.use('/plug/turnOn', route_plug_turnOn);
-app.use('/plug/turnOff', route_plug_turnOff);
+app.use('/add/ble/door', route_add_ble_door);
+
 app.use('/plug/del', route_plug_del);
 app.use('/plug/status', route_plug_status);
+app.use('/plug/turnOn', route_plug_turnOn);
+app.use('/plug/turnOff', route_plug_turnOff);
+
 app.use('/switch/del', route_switch_del);
 app.use('/switch/status', route_switch_status);
+
+app.use('/ble/plug/del', route_ble_plug_del);
 app.use('/ble/plug/status', route_ble_plug_status);
 app.use('/ble/plug/turnOn', route_ble_plug_turnOn);
 app.use('/ble/plug/turnOff', route_ble_plug_turnOff);
+
+app.use('/ble/door/del', route_ble_door_del);
+app.use('/ble/door/turnOn', route_ble_door_turnOn);
+
 app.use('/refresh', route_refresh, refreshDevice);
+app.use('/refreshRules', route_refreshRules);
+app.use('/get/configuration', getConfiguration);
 
 app.use('/test', test);
 
@@ -73,7 +97,7 @@ amqp.connect('amqp://localhost', function(err, conn) {
 			ch.consume(app.q.queue, function(msg) {
 				var reply = JSON.parse(msg.content);
 				if (reply.type == 146){
-	      //console.log(" [x] %s: '%s'", msg.fields.routingKey, msg.content.toString());
+	      	//console.log(" [x] %s: '%s'", msg.fields.routingKey, msg.content.toString());
 	      	for(let plug of app.devices.plugs)
 	      	{
 	      		if(plug.id == msg.fields.routingKey)
@@ -83,6 +107,8 @@ amqp.connect('amqp://localhost', function(err, conn) {
 	      		}
 	      	}
 				}
+				//else if(reply.type == 151)
+	      	//console.log(" [x] %s: '%s'", msg.fields.routingKey, msg.content.toString());					
 	    }, {noAck: true});
     });
     app.ch = ch;
@@ -139,7 +165,7 @@ function refreshDevice(req, res, next)
 			sendNotiCmd(dev);
 		}, TIMEOUT_SENDCMD);		
 
-		console.log(dev.id);
+		//console.log(dev.id);
 	}
 
 	route_switch_monitor(app.devices.blePlugs);
@@ -152,9 +178,18 @@ function refreshDevice(req, res, next)
 			sendNotiCmd(dev);
 		}, TIMEOUT_SENDCMD);		
 
-		console.log(dev.id);
+		//console.log(dev.id);
 	}
 
+	route_switch_monitor(app.devices.bleDoors);
+
+  app.ch.publish(BLE_MQ_EX, "testmsg", new Buffer("Get my message"));
+
+}
+
+function getConfiguration(req, res, next){
+	app.configuration = JSON.parse(fs.readFileSync('configurations.json', 'utf8'));
+	res.end(JSON.stringify(app.configuration));
 }
 
 

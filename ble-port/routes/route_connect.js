@@ -149,8 +149,8 @@ function waitForScan(req, nonConnectedDevs, res){
 		});
 
 		ble.on('discover', function(peripheral) {
-			console.log("found a node: ", peripheral.address);
-			console.log("advertisment: ", peripheral.advertisement.localName);
+//			console.log("found a node: ", peripheral.address);
+//			console.log("advertisment: ", peripheral.advertisement.localName);
 			//console.log("advertisment: ", peripheral.advertisement.txPowerLevel);
 			//console.log("advertisment: ", peripheral.advertisement.serviceUuids);
 			//console.log("rssi: ", peripheral.rssi);

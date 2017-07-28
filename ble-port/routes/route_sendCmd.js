@@ -27,6 +27,8 @@ router.post('/', function(req, res, next) {
 							console.log('send cmd');
 						}
 					});
+				}else{
+					console.log ('no tx chara to send cmd!');
 				}
 				break;
 			}
