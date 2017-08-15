@@ -43,5 +43,7 @@
       "serviceUuids": [],
       "serviceUuid": "54656d6173656b20506f6c7920454e47"
     }
+  ],
+  "bleBlinds": [
   ]
 }

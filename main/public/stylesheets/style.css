@@ -79,6 +79,12 @@
   background: #ffefaf !important;
 }
 
+.panel-head-ble-blind {
+  background: #ffdfdf !important;
+}
+
+
+
 #addModal {
   height: 100%;
 	top: 20%;

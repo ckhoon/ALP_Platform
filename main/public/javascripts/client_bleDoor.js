@@ -29,11 +29,11 @@ angular.
 			$rootScope.activeDev = {id : -1};
 
 		  $scope.delDev = function(devID, event){
-		    console.log("del ble plug - " + devID);
+		    console.log("del ble door - " + devID);
         event.stopPropagation();
 		    var idJson = {id: devID};
 		    console.log(idJson);
-		    var request = $http.post("/ble/plug/del", idJson).then(function successCallback(res) {
+		    var request = $http.post("/ble/door/del", idJson).then(function successCallback(res) {
 		      console.log(res.data);
 		    }, function errorCallback(res) {
 		      console.log( "failure message: " + res.data);
@@ -42,8 +42,8 @@ angular.
 		  };
 
 		  $scope.showDev = function(devID){
-		    console.log("show ble plug - " + devID);
-		    location.href="#/showBlePlug";
+		    console.log("show ble door - " + devID);
+		    location.href="#/showBleDoor";
 		    $rootScope.activeDev.id = devID;
 		    $rootScope.waitStatus = true;
 		    $rootScope.timeoutID = setTimeout($scope.getDevStatus,2000);
@@ -53,7 +53,7 @@ angular.
 		    if($rootScope.activeDev.id != -1)
 		    {
 		      var idJson = {id: $rootScope.activeDev.id};
-		      var request = $http.post("/ble/plug/status", idJson).then(function successCallback(res) {
+		      var request = $http.post("/ble/door/status", idJson).then(function successCallback(res) {
 		        if ($rootScope.waitStatus){
 		          $rootScope.waitStatus = false;
 		          $rootScope.loading = false;
@@ -82,23 +82,12 @@ angular.
 	module('AlpGatewayApp').
 		controller('ctrlBleDoorShow', function($rootScope, $scope,  $http) {
 
-			$scope.plugOn= function(){
+			$scope.doorOn= function(){
 			  //clearTimeout($rootScope.timeoutID);
 			  //$rootScope.timeoutID = setTimeout($scope.getDevStatus,3000);
 		    var idJson = {id: $rootScope.activeDev.id};
 			  console.log(idJson);
-			  var request = $http.post("/ble/plug/turnOn", idJson).then(function successCallback(res) {
-			    console.log(res.data);
-			  }, function errorCallback(res) {
-			    console.log( "failure message: " + res.data);
-			  });
-			};
-
-			$scope.plugOff= function(){
-			  //clearTimeout($rootScope.timeoutID);
-			  //$rootScope.timeoutID = setTimeout($scope.getDevStatus,3000);
-		    var idJson = {id: $rootScope.activeDev.id};
-			  var request = $http.post("/ble/plug/turnOff", idJson).then(function successCallback(res) {
+			  var request = $http.post("/ble/door/turnOn", idJson).then(function successCallback(res) {
 			    console.log(res.data);
 			  }, function errorCallback(res) {
 			    console.log( "failure message: " + res.data);

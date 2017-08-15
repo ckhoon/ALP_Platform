@@ -15,6 +15,7 @@ app.config(function($routeProvider) {
   $routeProvider.when('/showSwitch', {templateUrl: '../javascripts/showSwitch.html', reloadOnSearch: false});
   $routeProvider.when('/showBlePlug', {templateUrl: '../javascripts/showBlePlug.html', reloadOnSearch: false});
   $routeProvider.when('/showBleDoor', {templateUrl: '../javascripts/showBleDoor.html', reloadOnSearch: false});
+  $routeProvider.when('/showBleBlind', {templateUrl: '../javascripts/showBleBlind.html', reloadOnSearch: false});
   $routeProvider.when('/showRule', {templateUrl: '../javascripts/showRule.html', reloadOnSearch: false});
   $routeProvider.when('/showRules', {templateUrl: '../javascripts/showRules.html', reloadOnSearch: false});
 });
